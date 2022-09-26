@@ -35,6 +35,7 @@ android {
 dependencies {
     implementation project(':networkwrapper')
     implementation project(':data:network')
+    implementation project(':data:database')
     implementation project(':domain:feed')
 
     implementation 'androidx.core:core-ktx:1.9.0'
