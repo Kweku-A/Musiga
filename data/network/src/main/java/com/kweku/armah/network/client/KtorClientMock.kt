@@ -14,11 +14,13 @@ class KtorClientMock @Inject constructor(private val mockApi: MockApi) : KtorCli
     override fun getKtorClient(): HttpClient {
         return HttpClient(mockApi.engine) {
             install(ContentNegotiation) {
-                json(Json {
-                    prettyPrint = true
-                    isLenient = true
-                    ignoreUnknownKeys = true
-                })
+                json(
+                    Json {
+                        prettyPrint = true
+                        isLenient = true
+                        ignoreUnknownKeys = true
+                    }
+                )
             }
         }
     }

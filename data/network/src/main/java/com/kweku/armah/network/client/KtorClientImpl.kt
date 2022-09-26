@@ -32,10 +32,12 @@ class KtorClientImpl @Inject constructor(
             }
 
             install(ContentNegotiation) {
-                json(Json {
-                    prettyPrint = true
-                    isLenient = true
-                })
+                json(
+                    Json {
+                        prettyPrint = true
+                        isLenient = true
+                    }
+                )
             }
 
             Logging {
@@ -44,7 +46,6 @@ class KtorClientImpl @Inject constructor(
                         override fun log(message: String) {
                             Log.v("Logger Ktor =>", message)
                         }
-
                     }
                     level = LogLevel.ALL
                 }

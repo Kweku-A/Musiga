@@ -27,20 +27,19 @@ class KtorApiServiceTest {
     private lateinit var client: HttpClient
 
     @Before
-    fun init(){
+    fun init() {
         client = KtorClientImpl().client
         sut = KtorApiService(client)
     }
 
     @Test
-    fun should_return_success_with_feed_dto()= testApplication {
+    fun should_return_success_with_feed_dto() = testApplication {
 
         val testHttpClient = createClient {
             install(HttpCookies)
             this@testApplication.install(ContentNegotiation) {
                 json()
             }
-
         }
 
         sut = KtorApiService(testHttpClient)
@@ -48,18 +47,19 @@ class KtorApiServiceTest {
         externalServices {
             hosts("/") {
                 install(ContentNegotiation) {
-                    json(Json {
-                        prettyPrint = true
-                        isLenient = true
-                    })
+                    json(
+                        Json {
+                            prettyPrint = true
+                            isLenient = true
+                        }
+                    )
                 }
 
                 routing {
-                    this.get(EndPoints.FEED){
+                    this.get(EndPoints.FEED) {
                         this.call.respond(FeedDto(responseDataDto = DataDto(sessionDtos = emptyList())))
                     }
                 }
-
             }
         }
 
@@ -68,7 +68,7 @@ class KtorApiServiceTest {
     }
 
     @Test
-    fun should_return_success_with_feed_dto_when_searched(){
+    fun should_return_success_with_feed_dto_when_searched() {
         val dummyRequest = SearchRequest(searchParams = "a")
         val actualApiResult = runBlocking { sut.searchFeed(dummyRequest) }
         assertTrue(actualApiResult is ApiSuccess)
