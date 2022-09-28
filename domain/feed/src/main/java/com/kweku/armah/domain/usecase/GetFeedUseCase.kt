@@ -1,13 +1,14 @@
 package com.kweku.armah.domain.usecase
 
+import androidx.paging.PagingData
 import com.kweku.armah.domain.model.Session
 import com.kweku.armah.domain.repository.FeedRepository
-import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.Flow
 
 class GetFeedUseCase(private val repository: FeedRepository) {
 
-    suspend operator fun invoke(limit: Int, offset: Int): StateFlow<List<Session>> {
-        repository.getFeedDto()
-        return repository.getLocalFeed(limit, offset)
+     operator fun invoke(): Flow<PagingData<Session>> {
+        //repository.getFeedDto()
+        return repository.getLocalFeed()
     }
 }

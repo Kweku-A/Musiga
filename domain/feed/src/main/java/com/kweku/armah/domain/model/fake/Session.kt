@@ -17,6 +17,13 @@ val fakeSession2 = Session(
     name = "l"
 )
 
+val fakeSession3 = Session(
+    currentTrack = CurrentTrack(artworkUrl = "https://i.scdn.co/image/05c1c3fa2e2cca7011c8c94751d7f21f4aff5b54", title = "Passage"),
+    genres = listOf("Jazz", "Pop", "Electric"),
+    listenerCount = 229,
+    name = "jazz"
+)
+
 val fakeSessions = listOf(
     fakeSession1,
     fakeSession2
