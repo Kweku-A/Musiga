@@ -19,8 +19,8 @@ interface SearchFeedDao {
     )
     fun getSearchFeedEntities(searchParams: String): Flow<List<SearchFeedSessionEntity>>
 
-    @Query("SELECT * FROM search_feed_session")
-    fun getAllSearchFeedEntities(): Flow<List<SearchFeedSessionEntity>>
+    @Query("SELECT Count(id) FROM feed_session")
+    fun getSearchFeedCount(): Int
 
     @Query("DELETE FROM search_feed_session")
     fun deleteAllSearchFeedEntities()
