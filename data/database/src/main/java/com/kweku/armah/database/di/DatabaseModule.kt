@@ -27,4 +27,12 @@ object DatabaseModule {
     @Provides
     @Singleton
     fun providesFeedDao(musigaDatabase: MusigaDatabase) = musigaDatabase.feedDao()
+
+    @Provides
+    @Singleton
+    fun providesSearchFeedDao(musigaDatabase: MusigaDatabase) = musigaDatabase.searchFeedDao()
+
+    @Provides
+    @Singleton
+    fun providesRemoteKeysDao(musigaDatabase: MusigaDatabase) = musigaDatabase.remoteKeysDao()
 }
