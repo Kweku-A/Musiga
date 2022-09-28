@@ -1,0 +1,174 @@
+{
+  ConstraintSets: {
+    start: {
+      title: {
+        width: 'wrap',
+        height: 'wrap',
+        start: [
+          'parent',
+          'start',
+          16
+        ],
+        bottom: [
+          'search',
+          'top',
+          16
+        ],
+      },
+      search: {
+        width: 'spread',
+        height: 'wrap',
+        start: [
+          'parent',
+          'start',
+          16
+        ],
+        bottom: [
+          'box',
+          'bottom',
+          16
+        ],
+        end: [
+          'parent',
+          'end',
+          16
+        ]
+      },
+      box: {
+        width: 'spread',
+        height: 200,
+        start: [
+          'parent',
+          'start'
+        ],
+        top: [
+          'parent',
+          'top'
+        ],
+        end: [
+          'parent',
+          'end'
+        ]
+      },
+      content: {
+        width: 'spread',
+        height: 'spread',
+        start: [
+          'parent',
+          'start'
+        ],
+        top: [
+          'box',
+          'bottom'
+        ],
+        bottom: [
+          'parent',
+          'bottom',
+          -16
+        ],
+        end: [
+          'parent',
+          'end'
+        ]
+      }
+    },
+    end: {
+      title: {
+        width: 'spread',
+        height: 'wrap',
+        start: [
+          'box',
+          'start'
+        ],
+        bottom: [
+          'box',
+          'bottom',
+          16
+        ],
+        end: [
+          'box',
+          'end'
+        ]
+      },
+      search: {
+        width: 0,
+        start: [
+          'parent',
+          'start',
+          16
+        ],
+        bottom: [
+          'parent',
+          'bottom',
+          16
+        ],
+        end: [
+          'parent',
+          'end',
+          16
+        ]
+      },
+      box: {
+        width: 'spread',
+        height: 90,
+        start: [
+          'parent',
+          'start'
+        ],
+        top: [
+          'parent',
+          'top'
+        ],
+        end: [
+          'parent',
+          'end'
+        ]
+      },
+      content: {
+        width: 'spread',
+        height: 'spread',
+        start: [
+          'parent',
+          'start'
+        ],
+        top: [
+          'box',
+          'bottom'
+        ],
+        bottom: [
+          'parent',
+          'bottom',
+          -16
+        ],
+        end: [
+          'parent',
+          'end'
+        ]
+      }
+    }
+  },
+  Transitions: {
+    default: {
+      from: 'start',
+      to: 'end',
+      pathMotionArc: 'startHorizontal',
+      KeyFrames: {
+        KeyPositions:  [
+          {
+            target: ['search'],
+            frames: [0,3,100],
+            percentWidth: [0, 1, 1],
+          },
+        ],
+        KeyAttributes: [
+          {
+            target: ['search'],
+            frames: [0,1,100],
+            alpha: [1,0,0]
+          },
+
+        ]
+      }
+    }
+  }
+}
