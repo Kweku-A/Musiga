@@ -88,7 +88,7 @@ class FeedRemoteMediator @Inject constructor(
                 musigaDatabase.withTransaction {
                     if (loadType == LoadType.REFRESH) {
                         feedDao.deleteAllFeedEntities()
-                        remoteKeysDao.clearRemoteKeys()
+                        remoteKeysDao.deleteRemoteKeys()
                     }
 
                     remoteKeysDao.insertAll(keys)
