@@ -60,7 +60,7 @@ class FeedRepositoryImpl @Inject constructor(
         return Pager(
             config = PagingConfig(
                 pageSize = FeedRemoteMediator.PAGE_SIZE,
-                initialLoadSize = FeedRemoteMediator.PAGE_SIZE * 2,
+                initialLoadSize = FeedRemoteMediator.PAGE_SIZE, prefetchDistance = FeedRemoteMediator.PAGE_SIZE,
             ),
             remoteMediator = FeedRemoteMediator(
                 feedDatasource = feedDatasource,
