@@ -25,7 +25,6 @@ object RepositoryModule {
         feedDatasource: FeedDatasource,
         feedDao: FeedDao,
         musigaDatabase: MusigaDatabase,
-        coroutineScope: CoroutineScope
     ): FeedRepository {
         return FeedRepositoryImpl(
             feedDatasource = feedDatasource,
