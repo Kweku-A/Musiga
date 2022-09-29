@@ -1,10 +1,6 @@
-package com.kweku.armah.ui.elements
+package com.kweku.armah.ui.custom
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Surface
@@ -17,11 +13,11 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.kweku.armah.domain.model.Session
 import com.kweku.armah.ui.R
+import com.kweku.armah.ui.model.SessionUi
 
 @Composable
-fun ListenerIcon(session: Session, modifier: Modifier = Modifier) {
+internal fun ListenerIcon(session: SessionUi, modifier: Modifier = Modifier) {
     Box(modifier = Modifier.padding(start = 8.dp, top = 8.dp)) {
         Surface(
             shape = RoundedCornerShape(15.dp),

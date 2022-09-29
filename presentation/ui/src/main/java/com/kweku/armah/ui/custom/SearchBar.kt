@@ -21,7 +21,7 @@ import androidx.compose.ui.unit.sp
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
 @Composable
-fun SearchBar(
+internal fun SearchBar(
     searchText: String,
     onSearchTextChanged: (String) -> Unit,
     modifier: Modifier = Modifier,

@@ -2,12 +2,7 @@ package com.kweku.armah.ui.custom
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -22,11 +17,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
-import com.kweku.armah.domain.model.Session
-import com.kweku.armah.ui.elements.ListenerIcon
+import com.kweku.armah.ui.model.SessionUi
 
 @Composable
-fun GridItem(session: Session, modifier: Modifier = Modifier) {
+internal fun GridItem(session: SessionUi, modifier: Modifier = Modifier) {
     Surface(
         shape = RoundedCornerShape(size = 10.dp),
         modifier = modifier,
@@ -36,7 +30,7 @@ fun GridItem(session: Session, modifier: Modifier = Modifier) {
             Image(
                 painter = rememberAsyncImagePainter(
                     model = ImageRequest.Builder(LocalContext.current)
-                        .data(session.currentTrack.artworkUrl)
+                        .data(session .artworkUrl)
                         .crossfade(enable = true)
                         .build()
                 ),
@@ -68,7 +62,7 @@ fun GridItem(session: Session, modifier: Modifier = Modifier) {
                     fontWeight = FontWeight.Bold
                 )
                 Text(
-                    text = session.genres.joinToString(", "),
+                    text = session.genres,
                     color = Color.White,
                     fontSize = 11.sp,
                     lineHeight = 11.sp

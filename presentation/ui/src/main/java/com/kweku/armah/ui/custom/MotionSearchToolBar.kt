@@ -21,7 +21,7 @@ import com.kweku.armah.ui.R
 
 @OptIn(ExperimentalMotionApi::class)
 @Composable
-fun MotionSearchToolBar(
+internal fun MotionSearchToolBar(
     title: String,
     motionProgress: Float,
     maxHeightOfToolBar: Dp,
