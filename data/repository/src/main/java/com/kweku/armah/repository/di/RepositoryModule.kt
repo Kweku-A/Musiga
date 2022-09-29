@@ -2,6 +2,7 @@ package com.kweku.armah.repository.di
 
 import com.kweku.armah.database.dao.FeedDao
 import com.kweku.armah.database.dao.SearchFeedDao
+import com.kweku.armah.database.db.MusigaDatabase
 import com.kweku.armah.domain.repository.FeedRepository
 import com.kweku.armah.domain.repository.SearchFeedRepository
 import com.kweku.armah.network.datasource.FeedDatasource
@@ -23,12 +24,14 @@ object RepositoryModule {
     fun providesFeedRepository(
         feedDatasource: FeedDatasource,
         feedDao: FeedDao,
+        musigaDatabase: MusigaDatabase,
         coroutineScope: CoroutineScope
     ): FeedRepository {
         return FeedRepositoryImpl(
             feedDatasource = feedDatasource,
             feedDao = feedDao,
-            coroutineScope = coroutineScope
+            musigaDatabase = musigaDatabase,
+            coroutineScope = coroutineScope,
         )
     }
 

@@ -1,13 +1,14 @@
 package com.kweku.armah.domain.repository
 
+import androidx.paging.PagingData
 import com.kweku.armah.domain.model.Session
 import com.kweku.armah.networkresult.ApiResult
-import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.Flow
 
 interface FeedRepository {
     suspend fun getFeedDto(): ApiResult<Unit>
 
-    suspend fun getLocalFeed(limit:Int,offset:Int): StateFlow<List<Session>>
+    fun getLocalFeed(): Flow<PagingData<Session>>
 
     suspend fun deleteLocalFeed(): Boolean
 }

@@ -12,7 +12,6 @@ import com.kweku.armah.networkresult.ApiResult.ApiError
 import com.kweku.armah.networkresult.ApiResult.ApiSuccess
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
@@ -67,6 +66,6 @@ class SearchFeedRepositoryImpl @Inject constructor(
 
     override suspend fun deleteSearchLocalFeed(): Boolean {
         searchFeedDao.deleteAllSearchFeedEntities()
-        return searchFeedDao.getAllSearchFeedEntities().first().isEmpty()
+        return searchFeedDao.getSearchFeedCount() == 0
     }
 }

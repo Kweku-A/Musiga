@@ -48,10 +48,14 @@ dependencies {
 
     // Room
     implementation "androidx.room:room-runtime:2.4.3"
-    kapt("androidx.room:room-compiler:2.4.3")
-    implementation("androidx.room:room-ktx:2.4.3")
+    implementation "androidx.room:room-paging:2.4.3"
+    kapt "androidx.room:room-compiler:2.4.3"
+    implementation "androidx.room:room-ktx:2.4.3"
+
 
     // Serialization
     implementation "com.squareup.moshi:moshi:1.13.0"
     kapt "com.squareup.moshi:moshi-kotlin-codegen:1.13.0"
+    implementation "androidx.paging:paging-runtime-ktx:3.1.1"
+
 }

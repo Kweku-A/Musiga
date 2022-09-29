@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "feed_session")
 data class FeedSessionEntity(
     @PrimaryKey(autoGenerate = true)
-    val id: Int = 0,
+    val id: Long = 0,
     @Embedded
     val currentTrackEntity: CurrentTrackEntity,
     val genres: List<String>,

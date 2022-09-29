@@ -1,20 +1,26 @@
 package com.kweku.armah.database.dao
 
+import androidx.paging.PagingSource
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.kweku.armah.database.entity.feed.FeedSessionEntity
-import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface FeedDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertFeedEntities(sessionEntities: List<FeedSessionEntity>)
 
-    @Query("SELECT * FROM feed_session ORDER BY id ASC LIMIT :limit OFFSET :offset")
-    fun getFeedEntities(limit:Int,offset:Int): Flow<List<FeedSessionEntity>>
+    @Query("SELECT * FROM feed_session")
+    fun getFeedEntities(): PagingSource<Int, FeedSessionEntity>
+
+    @Query("SELECT id FROM feed_session ORDER BY id DESC LIMIT 1")
+    fun getLastFeedId(): Long
+
+    @Query("SELECT Count(id) FROM feed_session")
+     fun getFeedCount(): Int
 
     @Query("DELETE FROM feed_session")
-    fun deleteAllFeedEntities()
+    suspend fun deleteAllFeedEntities()
 }
