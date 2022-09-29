@@ -14,6 +14,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class SearchFeedRepositoryImpl @Inject constructor(
@@ -38,7 +39,9 @@ class SearchFeedRepositoryImpl @Inject constructor(
                         name = it.name
                     )
                 }
-                searchFeedDao.insertSearchFeedEntities(entities)
+               coroutineScope.launch {
+                   searchFeedDao.insertSearchFeedEntities(entities)
+               }
                 ApiSuccess(Unit)
             }
 
@@ -52,6 +55,7 @@ class SearchFeedRepositoryImpl @Inject constructor(
         return searchFeedDao.getSearchFeedEntities(searchParams).map { entities ->
             entities.map {
                 Session(
+                    id=it.id,
                     currentTrack = CurrentTrack(
                         artworkUrl = it.searchCurrentTrackEntity.artworkUrl,
                         title = it.searchCurrentTrackEntity.title
