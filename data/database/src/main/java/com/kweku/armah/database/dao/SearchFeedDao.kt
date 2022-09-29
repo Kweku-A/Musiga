@@ -12,15 +12,10 @@ interface SearchFeedDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertSearchFeedEntities(sessionEntities: List<SearchFeedSessionEntity>)
 
-    @Query(
-        "SELECT * FROM search_feed_session WHERE " +
-            "name COLLATE NOCASE LIKE :searchParams || '%' " +
-            "OR title COLLATE NOCASE LIKE :searchParams || '%' " +
-            "OR genres COLLATE NOCASE LIKE '%' || :searchParams || '%'"
-    )
-    fun getSearchFeedEntities(searchParams: String): Flow<List<SearchFeedSessionEntity>>
+    @Query("SELECT * FROM search_feed_session")
+    fun getSearchFeedEntities(): Flow<List<SearchFeedSessionEntity>>
 
-    @Query("SELECT Count(id) FROM feed_session")
+    @Query("SELECT Count(*) FROM search_feed_session")
     fun getSearchFeedCount(): Int
 
     @Query("DELETE FROM search_feed_session")
