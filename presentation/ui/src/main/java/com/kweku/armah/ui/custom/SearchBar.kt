@@ -22,10 +22,10 @@ import androidx.compose.ui.unit.sp
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
 @Composable
 internal fun SearchBar(
-    searchText: String,
+    searchTextProvider: () -> String,
     onSearchTextChanged: (String) -> Unit,
     modifier: Modifier = Modifier,
-    placeholderText: String = "Search",
+    placeholderTextProvider: () -> String = { "Search" },
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current
 
@@ -33,10 +33,17 @@ internal fun SearchBar(
         modifier = modifier
             .fillMaxWidth()
             .padding(vertical = 2.dp),
-        value = searchText,
+        value = searchTextProvider(),
         onValueChange = onSearchTextChanged,
         shape = RoundedCornerShape(12.dp),
-        placeholder = { Text(text = placeholderText, color = Color.Gray, fontSize = 20.sp, textAlign = TextAlign.Center) },
+        placeholder = {
+            Text(
+                text = placeholderTextProvider(),
+                color = Color.Gray,
+                fontSize = 20.sp,
+                textAlign = TextAlign.Center
+            )
+        },
         colors = TextFieldDefaults.textFieldColors(
             focusedIndicatorColor = Color.Transparent,
             unfocusedIndicatorColor = Color.Transparent,
@@ -44,9 +51,11 @@ internal fun SearchBar(
             cursorColor = Color.White
         ),
         leadingIcon = {
+            val descriptionProvider: () -> String = { "search field" }
+
             Icon(
                 imageVector = Icons.Filled.Search,
-                contentDescription = "search field",
+                contentDescription = descriptionProvider(),
                 tint = Color.Gray
             )
         },

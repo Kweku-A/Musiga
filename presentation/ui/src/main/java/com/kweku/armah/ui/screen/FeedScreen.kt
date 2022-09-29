@@ -1,12 +1,15 @@
 package com.kweku.armah.ui.screen
 
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
@@ -15,11 +18,20 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Stable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstrainedLayoutReference
 import androidx.constraintlayout.compose.ConstraintLayout
@@ -28,6 +40,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
+import com.kweku.armah.ui.R
 import com.kweku.armah.ui.custom.GridItem
 import com.kweku.armah.ui.custom.MotionSearchToolBar
 import com.kweku.armah.ui.model.SessionUi
@@ -41,7 +54,7 @@ fun FeedScreen(viewModel: FeedViewModel = hiltViewModel(), navigateBack: () -> U
 
     val scrollState = rememberLazyGridState()
 
-    val progress by animateFloatAsState(
+    val progress = animateFloatAsState(
         targetValue = if (remember { derivedStateOf { scrollState.firstVisibleItemIndex } }.value in 0..1) 0f else 1f,
         tween(500)
     )
@@ -50,6 +63,11 @@ fun FeedScreen(viewModel: FeedViewModel = hiltViewModel(), navigateBack: () -> U
         targetValue = if (remember { derivedStateOf { scrollState.firstVisibleItemIndex } }.value in 0..1) 216.dp else 90.dp,
         tween(500)
     )
+
+    val paddingProvider: () -> Dp = {
+        padding
+    }
+
     var isLoadingItems by remember {
         mutableStateOf(false)
     }
@@ -75,6 +93,9 @@ fun FeedScreen(viewModel: FeedViewModel = hiltViewModel(), navigateBack: () -> U
     val searchList by viewModel.searchDataSession.collectAsState(initial = emptyList())
 
     val searchText by viewModel.searchedText.collectAsState()
+    val searchTextProvider: () -> String = {
+        searchText
+    }
 
     var isSearching by remember {
         mutableStateOf(false)
@@ -88,10 +109,10 @@ fun FeedScreen(viewModel: FeedViewModel = hiltViewModel(), navigateBack: () -> U
     Scaffold(
         topBar = {
             MotionSearchToolBar(
-                title = "Discover",
-                motionProgress = progress,
-                maxHeightOfToolBar = padding,
-                searchText = searchText,
+                title = stringResource(R.string.title_discover),
+                motionProgressProvider = { progress.value },
+                maxHeightOfToolBarProvider = paddingProvider,
+                searchTextProvider = searchTextProvider,
                 onSearchTextChanged = onSearchTextChanged
             )
         },
@@ -102,7 +123,7 @@ fun FeedScreen(viewModel: FeedViewModel = hiltViewModel(), navigateBack: () -> U
         Surface(
             modifier = Modifier
                 .padding(top = padding)
-                .fillMaxWidth(), color = Color.Black
+                .fillMaxSize(), color = Color.Black
         ) {
             ConstraintLayout {
                 val (gridList, progressBar) = createRefs()
@@ -135,7 +156,6 @@ fun FeedScreen(viewModel: FeedViewModel = hiltViewModel(), navigateBack: () -> U
                     onLoadingItemsEvent(feedPagingItems)
 
                     LoadingIndicator(
-                        isLoadingItems = isLoadingItems,
                         indicatorRef = progressBar,
                         linkedToRef = gridList
                     )
@@ -167,31 +187,27 @@ fun FeedScreen(viewModel: FeedViewModel = hiltViewModel(), navigateBack: () -> U
     }
 }
 
+@Stable
 @Composable
 private fun ConstraintLayoutScope.LoadingIndicator(
-    isLoadingItems: Boolean,
     indicatorRef: ConstrainedLayoutReference,
     linkedToRef: ConstrainedLayoutReference
 ) {
-    AnimatedVisibility(visible = isLoadingItems,
-        enter = fadeIn(animationSpec = tween(durationMillis = 500)),
-        exit = fadeOut(animationSpec = tween(durationMillis = 500)),
+    Box(
+        contentAlignment = Alignment.TopCenter,
         modifier = Modifier
             .fillMaxWidth()
+            .height(80.dp)
             .constrainAs(indicatorRef) {
                 top.linkTo(linkedToRef.bottom)
                 start.linkTo(parent.start)
                 end.linkTo(parent.end)
                 bottom.linkTo(parent.bottom)
-            }) {
-        Box(
-            contentAlignment = Alignment.TopCenter, modifier = Modifier
-                .height(80.dp)
-                .fillMaxWidth()
-        ) {
-            CircularProgressIndicator(modifier = Modifier.size(30.dp))
-        }
+            }
+    ) {
+        CircularProgressIndicator(modifier = Modifier.size(30.dp))
     }
+
 }
 
 @Preview

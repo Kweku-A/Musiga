@@ -23,9 +23,9 @@ import com.kweku.armah.ui.R
 @Composable
 internal fun MotionSearchToolBar(
     title: String,
-    motionProgress: Float,
-    maxHeightOfToolBar: Dp,
-    searchText: String,
+    motionProgressProvider: () -> Float,
+    maxHeightOfToolBarProvider: () -> Dp,
+    searchTextProvider:  () -> String,
     onSearchTextChanged: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -35,29 +35,41 @@ internal fun MotionSearchToolBar(
         context.resources.openRawResource(R.raw.collapse_toolbar).readBytes().decodeToString()
     }
 
+
+    val boxHeight: (Dp) -> Dp = {
+        it - innerPadding
+    }
+
     MotionLayout(
         motionScene = MotionScene(content = motionScene),
-        progress = motionProgress,
+        progress = motionProgressProvider(),
         modifier = modifier
             .fillMaxWidth()
-            .height(maxHeightOfToolBar)
+            .height(maxHeightOfToolBarProvider())
             .background(color = Color.Black)
         // debug = EnumSet.of(MotionLayoutDebugFlags.SHOW_ALL),
     ) {
+        val boxId = "box"
+        val titleId = "title"
+        val searchId = "search"
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(maxHeightOfToolBar - innerPadding)
+                .height(boxHeight(maxHeightOfToolBarProvider()))
                 .background(color = Color.White.copy(alpha = 0.15f))
-                .layoutId("box")
+                .layoutId(boxId)
         )
         Text(
             text = title,
             modifier = Modifier
-                .layoutId("title"),
+                .layoutId(titleId),
             textAlign = TextAlign.Center,
             color = Color.White
         )
-        SearchBar(searchText = searchText, onSearchTextChanged = onSearchTextChanged, modifier = Modifier.layoutId("search"))
+        SearchBar(
+            searchTextProvider = searchTextProvider,
+            onSearchTextChanged = onSearchTextChanged,
+            modifier = Modifier.layoutId(searchId)
+        )
     }
 }

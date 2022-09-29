@@ -1,5 +1,8 @@
 package com.kweku.armah.ui.model
 
+import androidx.compose.runtime.Immutable
+
+@Immutable
 data class SessionUi(
     val id:Long,
     val artworkUrl: String,
