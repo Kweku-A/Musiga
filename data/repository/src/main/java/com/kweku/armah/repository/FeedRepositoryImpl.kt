@@ -17,7 +17,6 @@ import com.kweku.armah.networkresult.ApiResult
 import com.kweku.armah.networkresult.ApiResult.ApiError
 import com.kweku.armah.networkresult.ApiResult.ApiSuccess
 import com.kweku.armah.repository.paging.FeedRemoteMediator
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
@@ -25,9 +24,7 @@ import javax.inject.Inject
 class FeedRepositoryImpl @Inject constructor(
     private val feedDatasource: FeedDatasource,
     private val feedDao: FeedDao,
-    private val musigaDatabase: MusigaDatabase,
-    private val coroutineScope: CoroutineScope
-
+    private val musigaDatabase: MusigaDatabase
 ) : FeedRepository {
 
     private var itemsCount = 0
@@ -74,6 +71,7 @@ class FeedRepositoryImpl @Inject constructor(
         ).flow.map { pagingData ->
             pagingData.map {
                 Session(
+                    id=it.id,
                     currentTrack = CurrentTrack(
                         artworkUrl = it.currentTrackEntity.artworkUrl,
                         title = it.currentTrackEntity.title
