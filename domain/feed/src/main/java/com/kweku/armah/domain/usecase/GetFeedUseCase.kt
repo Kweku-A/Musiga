@@ -8,7 +8,6 @@ import kotlinx.coroutines.flow.Flow
 class GetFeedUseCase(private val repository: FeedRepository) {
 
     operator fun invoke(): Flow<PagingData<Session>> {
-        // repository.getFeedDto()
         return repository.getLocalFeed()
     }
 }
