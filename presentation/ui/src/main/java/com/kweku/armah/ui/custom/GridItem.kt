@@ -14,6 +14,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
@@ -44,7 +45,15 @@ fun GridItem(session: Session, modifier: Modifier = Modifier) {
             Box(
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(color = Color.Black.copy(alpha = 0.4f))
+                    .background(
+                        brush = Brush.verticalGradient(
+                            colors = listOf(
+                                Color.Transparent,
+                                Color.Black.copy(alpha = 0.2f),
+                                Color.Black.copy(alpha = 0.4f)
+                            )
+                        )
+                    )
             )
             Column(
                 modifier = Modifier
