@@ -30,8 +30,7 @@ object RepositoryModule {
         return FeedRepositoryImpl(
             feedDatasource = feedDatasource,
             feedDao = feedDao,
-            musigaDatabase = musigaDatabase,
-            coroutineScope = coroutineScope,
+            musigaDatabase = musigaDatabase
         )
     }
 
