@@ -22,5 +22,5 @@ interface RemoteKeysDao {
     suspend fun remoteKeysLastItem(): RemoteKeys?
 
     @Query("DELETE FROM remote_keys")
-    suspend fun clearRemoteKeys()
+    suspend fun deleteRemoteKeys()
 }
