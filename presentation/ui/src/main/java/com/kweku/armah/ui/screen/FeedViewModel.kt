@@ -11,6 +11,7 @@ import com.kweku.armah.domain.model.Session
 import com.kweku.armah.domain.usecase.FeedUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.flowOf
 import javax.inject.Inject
 
@@ -20,15 +21,14 @@ class FeedViewModel @Inject constructor(private val feedUseCases: FeedUseCases) 
     var pagingDataSession by mutableStateOf<Flow<PagingData<Session>>>(flowOf())
         private set
 
-    init{
+    init {
         pagingDataSession = feedUseCases.getFeedUseCase().cachedIn(viewModelScope)
     }
-//    fun getMusicFeed(): Flow<PagingData<Session>> {
-//
-//        return feedUseCases.getFeedUseCase().cachedIn(viewModelScope)
-//    }
 
-    companion object {
-        const val PAGINATION_LIMIT = 5
+    var searchedText = MutableStateFlow("")
+        private set
+
+    fun onSearchText(search: String) {
+        searchedText.value = search
     }
 }
