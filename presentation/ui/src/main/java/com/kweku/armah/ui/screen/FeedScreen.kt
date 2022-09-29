@@ -83,7 +83,7 @@ fun FeedScreen(viewModel: FeedViewModel = hiltViewModel(), navigateBack: () -> U
         ) {
             ConstraintLayout {
 
-                val (gridList, progress) = createRefs()
+                val (gridList, progressBar) = createRefs()
                 LazyVerticalGrid(
                     columns = GridCells.Fixed(2),
                     state = scrollState,
@@ -94,7 +94,7 @@ fun FeedScreen(viewModel: FeedViewModel = hiltViewModel(), navigateBack: () -> U
                             top.linkTo(parent.top)
                             start.linkTo(parent.start)
                             end.linkTo(parent.end)
-                            bottom.linkTo(progress.top)
+                            bottom.linkTo(progressBar.top)
                         }
                 ) {
                     items(itemList.itemCount) {
@@ -113,11 +113,11 @@ fun FeedScreen(viewModel: FeedViewModel = hiltViewModel(), navigateBack: () -> U
                 itemList.apply {
                     when {
                         loadState.mediator?.refresh is LoadState.Loading -> {
-                            LoadingIndicator(progress,gridList)
+                            LoadingIndicator(progressBar,gridList)
                         }
 
                         loadState.mediator?.append is LoadState.Loading -> {
-                            LoadingIndicator(progress,gridList)
+                            LoadingIndicator(progressBar,gridList)
                         }
 
                         loadState.mediator?.refresh is LoadState.Error -> {
