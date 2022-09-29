@@ -19,7 +19,7 @@ interface FeedDao {
     fun getLastFeedId(): Long
 
     @Query("SELECT Count(id) FROM feed_session")
-     fun getFeedCount(): Int
+    fun getFeedCount(): Int
 
     @Query("DELETE FROM feed_session")
     suspend fun deleteAllFeedEntities()

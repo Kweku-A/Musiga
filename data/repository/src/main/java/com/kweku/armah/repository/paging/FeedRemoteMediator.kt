@@ -93,7 +93,6 @@ class FeedRemoteMediator @Inject constructor(
 
                     remoteKeysDao.insertAll(keys)
 
-
                     feedDao.insertFeedEntities(entities)
                 }
                 MediatorResult.Success(endOfPaginationReached = isEndOfPagination)

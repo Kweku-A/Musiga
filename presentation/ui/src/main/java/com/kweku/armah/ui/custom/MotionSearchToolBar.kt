@@ -25,7 +25,7 @@ fun MotionSearchToolBar(
     title: String,
     motionProgress: Float,
     maxHeightOfToolBar: Dp,
-    searchText :String,
+    searchText: String,
     onSearchTextChanged: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -42,7 +42,7 @@ fun MotionSearchToolBar(
             .fillMaxWidth()
             .height(maxHeightOfToolBar)
             .background(color = Color.Black)
-        //debug = EnumSet.of(MotionLayoutDebugFlags.SHOW_ALL),
+        // debug = EnumSet.of(MotionLayoutDebugFlags.SHOW_ALL),
     ) {
         Box(
             modifier = Modifier

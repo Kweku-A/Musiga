@@ -28,7 +28,7 @@ class SearchFeedUseCaseTest {
         val expected = listOf(fakeSession1)
         repository.response = ApiSuccess(expected)
 
-        val actual = runBlocking { sut(fakeSession1.name).first()  }
+        val actual = runBlocking { sut(fakeSession1.name).first() }
         assertEquals(expected, actual)
     }
 
@@ -38,7 +38,7 @@ class SearchFeedUseCaseTest {
         repository.response = expectedResult
         val expected = emptyList<Session>()
 
-        val actual = runBlocking { sut(fakeSession1.name).first()  }
+        val actual = runBlocking { sut(fakeSession1.name).first() }
         assertEquals(expected, actual)
     }
 }

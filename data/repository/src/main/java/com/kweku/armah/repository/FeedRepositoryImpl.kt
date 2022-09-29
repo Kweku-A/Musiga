@@ -57,7 +57,6 @@ class FeedRepositoryImpl @Inject constructor(
         }
     }
 
-
     override fun getLocalFeed(): Flow<PagingData<Session>> {
         val pagingSourceFactory = { feedDao.getFeedEntities() }
         @OptIn(ExperimentalPagingApi::class)

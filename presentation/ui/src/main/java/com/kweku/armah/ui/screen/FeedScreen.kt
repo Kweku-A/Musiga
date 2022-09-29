@@ -73,7 +73,7 @@ fun FeedScreen(viewModel: FeedViewModel = hiltViewModel(), navigateBack: () -> U
         },
         containerColor = Color.Black,
 
-        ) {
+    ) {
         val padding1 = it
         Surface(
             modifier = Modifier
@@ -113,24 +113,20 @@ fun FeedScreen(viewModel: FeedViewModel = hiltViewModel(), navigateBack: () -> U
                 itemList.apply {
                     when {
                         loadState.mediator?.refresh is LoadState.Loading -> {
-                            LoadingIndicator(progressBar,gridList)
+                            LoadingIndicator(progressBar, gridList)
                         }
 
                         loadState.mediator?.append is LoadState.Loading -> {
-                            LoadingIndicator(progressBar,gridList)
+                            LoadingIndicator(progressBar, gridList)
                         }
 
                         loadState.mediator?.refresh is LoadState.Error -> {
-
                         }
 
                         loadState.mediator?.append is LoadState.Error -> {
-
                         }
                     }
                 }
-
-
             }
         }
     }
@@ -141,12 +137,15 @@ private fun ConstraintLayoutScope.LoadingIndicator(
     indicatorRef: ConstrainedLayoutReference,
     linkedToRef: ConstrainedLayoutReference
 ) {
-    Box(contentAlignment = Alignment.TopCenter,modifier = Modifier.fillMaxWidth().height(80.dp).constrainAs(indicatorRef) {
-        top.linkTo(linkedToRef.bottom)
-        start.linkTo(parent.start)
-        end.linkTo(parent.end)
-        bottom.linkTo(parent.bottom)
-    }) {
+    Box(
+        contentAlignment = Alignment.TopCenter,
+        modifier = Modifier.fillMaxWidth().height(80.dp).constrainAs(indicatorRef) {
+            top.linkTo(linkedToRef.bottom)
+            start.linkTo(parent.start)
+            end.linkTo(parent.end)
+            bottom.linkTo(parent.bottom)
+        }
+    ) {
         CircularProgressIndicator(modifier = Modifier.size(30.dp))
     }
 }

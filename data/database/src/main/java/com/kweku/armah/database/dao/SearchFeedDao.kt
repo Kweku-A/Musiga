@@ -12,7 +12,8 @@ interface SearchFeedDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertSearchFeedEntities(sessionEntities: List<SearchFeedSessionEntity>)
 
-    @Query("SELECT * FROM search_feed_session WHERE " +
+    @Query(
+        "SELECT * FROM search_feed_session WHERE " +
             "name COLLATE NOCASE LIKE :searchParams || '%' " +
             "OR title COLLATE NOCASE LIKE :searchParams || '%' " +
             "OR genres COLLATE NOCASE LIKE '%' || :searchParams || '%'"

@@ -54,5 +54,4 @@ object AppModule {
         deleteLocalSearchFeedUsesCase,
         deleteLocalFeedUseCase
     )
-
 }

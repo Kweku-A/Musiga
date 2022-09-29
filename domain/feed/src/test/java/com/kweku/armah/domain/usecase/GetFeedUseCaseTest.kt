@@ -36,7 +36,7 @@ class GetFeedUseCaseTest {
         repository.response = expectedResult
         val expected = emptyList<Session>()
 
-        val actual = runBlocking { sut().first()  }
+        val actual = runBlocking { sut().first() }
         assertEquals(expected, actual)
     }
 }

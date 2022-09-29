@@ -43,7 +43,7 @@ class FakeFeedRepository : FeedRepository {
     }*/
 
     override suspend fun deleteLocalFeed(): Boolean {
-       _sessionsFlow.value = emptyList()
+        _sessionsFlow.value = emptyList()
         return sessionsFlow.first().isEmpty()
     }
 }

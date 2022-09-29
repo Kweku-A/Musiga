@@ -17,7 +17,7 @@ class DeleteSearchFeedUseCaseTest {
     fun init() {
         repository = FakeSearchFeedRepository()
         sut = DeleteLocalSearchFeedUsesCase(repository = repository)
-        searchFeedUseCase= SearchFeedUseCase(repository = repository)
+        searchFeedUseCase = SearchFeedUseCase(repository = repository)
     }
 
     @Test

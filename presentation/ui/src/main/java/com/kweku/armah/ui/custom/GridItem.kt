@@ -32,7 +32,7 @@ fun GridItem(session: Session, modifier: Modifier = Modifier) {
         modifier = modifier,
         color = Color.Transparent
     ) {
-        Box() {
+        Box {
             Image(
                 painter = rememberAsyncImagePainter(
                     model = ImageRequest.Builder(LocalContext.current)
@@ -69,7 +69,9 @@ fun GridItem(session: Session, modifier: Modifier = Modifier) {
                 )
                 Text(
                     text = session.genres.joinToString(", "),
-                    color = Color.White, fontSize = 11.sp
+                    color = Color.White,
+                    fontSize = 11.sp,
+                    lineHeight = 11.sp
                 )
             }
 
