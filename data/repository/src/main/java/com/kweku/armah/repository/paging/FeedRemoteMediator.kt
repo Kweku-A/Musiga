@@ -13,6 +13,7 @@ import com.kweku.armah.database.entity.feed.FeedSessionEntity
 import com.kweku.armah.database.entity.keys.RemoteKeys
 import com.kweku.armah.network.datasource.FeedDatasource
 import com.kweku.armah.networkresult.ApiResult
+import kotlinx.coroutines.delay
 import javax.inject.Inject
 
 @OptIn(ExperimentalPagingApi::class)
@@ -53,7 +54,7 @@ class FeedRemoteMediator @Inject constructor(
                 nextKey
             }
         }
-
+        delay(3000)
         return when (val response = feedDatasource.getFeedUpdate()) {
             is ApiResult.ApiSuccess -> {
                 // Added to allow showing of progress dialog
