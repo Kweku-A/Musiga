@@ -11,10 +11,8 @@ import com.kweku.armah.networkresult.ApiResult
 import com.kweku.armah.networkresult.ApiResult.ApiError
 import com.kweku.armah.networkresult.ApiResult.ApiSuccess
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.stateIn
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class SearchFeedRepositoryImpl @Inject constructor(
@@ -25,6 +23,10 @@ class SearchFeedRepositoryImpl @Inject constructor(
 ) : SearchFeedRepository {
 
     override suspend fun getSearchedFeedDto(): ApiResult<Unit> {
+        if (searchFeedDao.getSearchFeedCount() > 0) {
+            return ApiSuccess(Unit)
+        }
+
         return when (val response = feedDatasource.searchFeed()) {
             is ApiSuccess -> {
                 val sessions = response.data.responseDataDto.sessionDtos
@@ -39,9 +41,8 @@ class SearchFeedRepositoryImpl @Inject constructor(
                         name = it.name
                     )
                 }
-               coroutineScope.launch {
-                   searchFeedDao.insertSearchFeedEntities(entities)
-               }
+
+                searchFeedDao.insertSearchFeedEntities(entities)
                 ApiSuccess(Unit)
             }
 
@@ -51,11 +52,11 @@ class SearchFeedRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getLocalSearchFeed(searchParams: String): StateFlow<List<Session>> {
-        return searchFeedDao.getSearchFeedEntities(searchParams).map { entities ->
+    override suspend fun getLocalSearchFeed(searchParams: String): Flow<List<Session>> {
+        return searchFeedDao.getSearchFeedEntities().map { entities ->
             entities.map {
                 Session(
-                    id=it.id,
+                    id = it.id,
                     currentTrack = CurrentTrack(
                         artworkUrl = it.searchCurrentTrackEntity.artworkUrl,
                         title = it.searchCurrentTrackEntity.title
@@ -65,7 +66,7 @@ class SearchFeedRepositoryImpl @Inject constructor(
                     name = it.name
                 )
             }
-        }.stateIn(coroutineScope)
+        }
     }
 
     override suspend fun deleteSearchLocalFeed(): Boolean {
