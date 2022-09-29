@@ -2,7 +2,6 @@ package com.kweku.armah.musiga.di
 
 import com.kweku.armah.domain.repository.FeedRepository
 import com.kweku.armah.domain.repository.SearchFeedRepository
-import com.kweku.armah.domain.usecase.DeleteLocalFeedUseCase
 import com.kweku.armah.domain.usecase.DeleteLocalSearchFeedUsesCase
 import com.kweku.armah.domain.usecase.FeedUseCases
 import com.kweku.armah.domain.usecase.GetFeedUseCase
@@ -11,6 +10,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import kotlinx.coroutines.CoroutineScope
 import javax.inject.Singleton
 
 @Module
@@ -25,20 +25,20 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun providesDeleteLocalFeedUseCase(repository: FeedRepository): DeleteLocalFeedUseCase {
-        return DeleteLocalFeedUseCase(repository)
+    fun providesSearchFeedUseCase(
+        repository: SearchFeedRepository,
+        coroutineScope: CoroutineScope
+    ): SearchFeedUseCase {
+        return SearchFeedUseCase(repository, coroutineScope)
     }
 
     @Singleton
     @Provides
-    fun providesSearchFeedUseCase(repository: SearchFeedRepository): SearchFeedUseCase {
-        return SearchFeedUseCase(repository)
-    }
-
-    @Singleton
-    @Provides
-    fun providesDeleteLocalSearchFeedUsesCase(repository: SearchFeedRepository): DeleteLocalSearchFeedUsesCase {
-        return DeleteLocalSearchFeedUsesCase(repository)
+    fun providesDeleteLocalSearchFeedUsesCase(
+        repository: SearchFeedRepository,
+        coroutineScope: CoroutineScope
+    ): DeleteLocalSearchFeedUsesCase {
+        return DeleteLocalSearchFeedUsesCase(repository, coroutineScope)
     }
 
     @Provides
@@ -46,12 +46,10 @@ object AppModule {
     fun provideFeedUseCases(
         getFeedUseCase: GetFeedUseCase,
         searchFeedUseCase: SearchFeedUseCase,
-        deleteLocalFeedUseCase: DeleteLocalFeedUseCase,
         deleteLocalSearchFeedUsesCase: DeleteLocalSearchFeedUsesCase
     ) = FeedUseCases(
         searchFeedUseCase,
         getFeedUseCase,
-        deleteLocalSearchFeedUsesCase,
-        deleteLocalFeedUseCase
+        deleteLocalSearchFeedUsesCase
     )
 }
