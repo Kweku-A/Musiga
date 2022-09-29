@@ -36,7 +36,7 @@ import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.kweku.armah.domain.model.Session
 import com.kweku.armah.ui.custom.MotionSearchToolBar
-import com.kweku.armah.ui.elements.GridItem
+import com.kweku.armah.ui.custom.GridItem
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

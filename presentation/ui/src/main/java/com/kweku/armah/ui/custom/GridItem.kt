@@ -1,4 +1,4 @@
-package com.kweku.armah.ui.elements
+package com.kweku.armah.ui.custom
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -23,6 +23,7 @@ import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import com.kweku.armah.domain.model.Session
+import com.kweku.armah.ui.elements.ListenerIcon
 
 @Composable
 fun GridItem(session: Session, modifier: Modifier = Modifier) {
