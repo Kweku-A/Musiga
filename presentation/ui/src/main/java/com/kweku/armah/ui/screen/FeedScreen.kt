@@ -92,6 +92,12 @@ fun FeedScreen(viewModel: FeedViewModel = hiltViewModel(), navigateBack: () -> U
 
     val searchList by viewModel.searchDataSession.collectAsState(initial = emptyList())
 
+    val shuffledSearchList: () -> List<SessionUi> = {
+        searchList.shuffled()
+    }
+
+    val error = viewModel.errorMessage
+
     val searchText by viewModel.searchedText.collectAsState()
     val searchTextProvider: () -> String = {
         searchText

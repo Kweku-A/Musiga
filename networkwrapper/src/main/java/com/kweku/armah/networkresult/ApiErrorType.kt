@@ -1,12 +1,12 @@
 package com.kweku.armah.networkresult
 
-enum class ApiErrorType(val code: Int) {
-    NOT_FOUND(404),
-    EXCEPTION(-1);
+enum class ApiErrorType(val message: String) {
+    NETWORK_ERROR("A network error occurred"),
+    EXCEPTION("An exception occurred");
 
     companion object {
-        fun get(code: Int?): ApiErrorType? {
-            return values().firstOrNull { it.code == code }
+        fun get(message: String): ApiErrorType {
+            return values().first { it.message == message }
         }
     }
 }

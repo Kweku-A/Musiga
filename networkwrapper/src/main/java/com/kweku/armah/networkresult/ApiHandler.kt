@@ -12,7 +12,7 @@ suspend inline fun <reified T> handleKtorApi(execute: () -> HttpResponse): ApiRe
             val body: T = response.body()
             ApiSuccess(body ?: Unit as T)
         } else {
-            ApiError(type = ApiErrorType.get(response.status.value))
+            ApiError(type = ApiErrorType.NETWORK_ERROR)
         }
     } catch (e: Exception) {
         e.printStackTrace()

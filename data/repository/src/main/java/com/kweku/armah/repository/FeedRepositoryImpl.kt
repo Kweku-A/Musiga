@@ -71,7 +71,6 @@ class FeedRepositoryImpl @Inject constructor(
         ).flow.map { pagingData ->
             pagingData.map {
                 Session(
-                    id=it.id,
                     currentTrack = CurrentTrack(
                         artworkUrl = it.currentTrackEntity.artworkUrl,
                         title = it.currentTrackEntity.title

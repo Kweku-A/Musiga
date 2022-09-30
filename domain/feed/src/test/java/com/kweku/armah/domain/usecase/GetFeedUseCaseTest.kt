@@ -32,7 +32,7 @@ class GetFeedUseCaseTest {
 
     @Test
     fun should_return_empty_list_request_failure() {
-        val expectedResult = ApiError<List<Session>>(ApiErrorType.NOT_FOUND)
+        val expectedResult = ApiError<List<Session>>(ApiErrorType.NETWORK_ERROR)
         repository.response = expectedResult
         val expected = emptyList<Session>()
 
