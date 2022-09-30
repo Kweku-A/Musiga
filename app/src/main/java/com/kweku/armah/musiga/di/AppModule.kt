@@ -2,7 +2,6 @@ package com.kweku.armah.musiga.di
 
 import com.kweku.armah.domain.repository.FeedRepository
 import com.kweku.armah.domain.repository.SearchFeedRepository
-import com.kweku.armah.domain.usecase.DeleteLocalSearchFeedUsesCase
 import com.kweku.armah.domain.usecase.FeedUseCases
 import com.kweku.armah.domain.usecase.GetFeedUseCase
 import com.kweku.armah.domain.usecase.SearchFeedUseCase
@@ -32,24 +31,15 @@ object AppModule {
         return SearchFeedUseCase(repository, coroutineScope)
     }
 
-    @Singleton
-    @Provides
-    fun providesDeleteLocalSearchFeedUsesCase(
-        repository: SearchFeedRepository,
-        coroutineScope: CoroutineScope
-    ): DeleteLocalSearchFeedUsesCase {
-        return DeleteLocalSearchFeedUsesCase(repository, coroutineScope)
-    }
+
 
     @Provides
     @Singleton
     fun provideFeedUseCases(
         getFeedUseCase: GetFeedUseCase,
         searchFeedUseCase: SearchFeedUseCase,
-        deleteLocalSearchFeedUsesCase: DeleteLocalSearchFeedUsesCase
     ) = FeedUseCases(
         searchFeedUseCase,
-        getFeedUseCase,
-        deleteLocalSearchFeedUsesCase
+        getFeedUseCase
     )
 }
