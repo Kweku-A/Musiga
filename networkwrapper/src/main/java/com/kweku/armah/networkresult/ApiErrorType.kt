@@ -1,7 +1,7 @@
 package com.kweku.armah.networkresult
 
 enum class ApiErrorType(val message: String) {
-    NETWORK_ERROR("A network error occurred"),
+    REQUEST_ERROR("A network request error occurred"),
     EXCEPTION("An exception occurred");
 
     companion object {

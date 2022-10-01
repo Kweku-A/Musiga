@@ -17,7 +17,7 @@ import kotlinx.coroutines.delay
 import javax.inject.Inject
 
 @OptIn(ExperimentalPagingApi::class)
-class FeedRemoteMediator @Inject constructor(
+internal class FeedRemoteMediator @Inject constructor(
     private val feedDatasource: FeedDatasource,
     private val musigaDatabase: MusigaDatabase
 ) : RemoteMediator<Int, FeedSessionEntity>() {
