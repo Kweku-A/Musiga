@@ -2,6 +2,7 @@ package com.kweku.armah.network.client
 
 import android.util.Log
 import com.kweku.armah.network.BuildConfig
+import com.kweku.armah.network.client.contract.KtorClient
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.HttpClientEngineConfig
 import io.ktor.client.engine.HttpClientEngineFactory

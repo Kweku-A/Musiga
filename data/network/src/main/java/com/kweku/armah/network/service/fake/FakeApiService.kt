@@ -1,7 +1,7 @@
 package com.kweku.armah.network.service.fake
 
 import com.kweku.armah.network.entity.FeedDto
-import com.kweku.armah.network.service.ApiService
+import com.kweku.armah.network.service.contract.ApiService
 import com.kweku.armah.network.service.EndPoints
 import com.kweku.armah.networkresult.ApiResult
 import com.kweku.armah.networkresult.handleKtorApi

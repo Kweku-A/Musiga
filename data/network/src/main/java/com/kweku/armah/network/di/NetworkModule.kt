@@ -1,10 +1,10 @@
 package com.kweku.armah.network.di
 
-import com.kweku.armah.network.client.KtorClient
+import com.kweku.armah.network.client.contract.KtorClient
 import com.kweku.armah.network.client.KtorClientImpl
-import com.kweku.armah.network.datasource.FeedDatasource
+import com.kweku.armah.network.datasource.contract.FeedDatasource
 import com.kweku.armah.network.datasource.FeedDatasourceImpl
-import com.kweku.armah.network.service.ApiService
+import com.kweku.armah.network.service.contract.ApiService
 import com.kweku.armah.network.service.KtorApiService
 import dagger.Module
 import dagger.Provides
@@ -12,6 +12,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.cio.CIO
+import kotlinx.coroutines.CoroutineDispatcher
 import javax.inject.Singleton
 
 @Module
@@ -30,12 +31,6 @@ object NetworkModule {
         return ktorClient.getKtorClient()
     }
 
-//    @Singleton
-//    @Provides
-//    fun provideHttpClientClient(ktorClient: KtorClientMock): HttpClient {
-//        return ktorClient.getKtorClient()
-//    }
-
     @Singleton
     @Provides
     fun provideApiService(client: HttpClient): ApiService {
@@ -44,7 +39,7 @@ object NetworkModule {
 
     @Singleton
     @Provides
-    fun provideDatasource(apiService: ApiService): FeedDatasource {
-        return FeedDatasourceImpl(apiService)
+    fun provideDatasource(apiService: ApiService, dispatcher: CoroutineDispatcher): FeedDatasource {
+        return FeedDatasourceImpl(apiService, dispatcher)
     }
 }
