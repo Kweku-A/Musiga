@@ -33,19 +33,16 @@ class FeedRepositoryTest {
     @Before
     fun init() {
         hiltRule.inject()
-        sut = FeedRepositoryImpl(feedDatasource, musigaDatabase)
+        sut = FeedRepositoryImpl(feedDatasource = feedDatasource, musigaDatabase = musigaDatabase)
     }
 
     @Test
     fun should_fetch_feed_dto_and_insert_into_db() {
-
         val expected = fakeFeedDto.responseDataDto.sessionDtos.size
         val result = runBlocking { sut.getFeedDto() }
         assert(result is ApiSuccess)
 
         val actual = musigaDatabase.feedDao().getFeedCount()
         assertEquals(expected, actual)
-
     }
-
 }
