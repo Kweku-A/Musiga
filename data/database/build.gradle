@@ -60,6 +60,9 @@ dependencies {
     // Serialization
     implementation 'com.squareup.moshi:moshi:1.14.0'
     kapt 'com.squareup.moshi:moshi-kotlin-codegen:1.14.0'
-    implementation "androidx.paging:paging-runtime-ktx:3.1.1"
+    implementation ("androidx.paging:paging-runtime-ktx:3.1.1") {
+        exclude group: 'androidx.lifecycle', module:'lifecycle-viewmodel'
+        exclude group: 'androidx.lifecycle', module:'lifecycle-viewmodel-ktx'
+    }
 
 }

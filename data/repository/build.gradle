@@ -33,6 +33,7 @@ android {
     packagingOptions {
         resources {
             excludes += '/META-INF/INDEX.LIST'
+            excludes += '/META-INF/io.netty.versions.properties'
         }
     }
 }
@@ -54,6 +55,9 @@ dependencies {
     kapt 'com.google.dagger:hilt-compiler:2.42'
     kaptAndroidTest 'com.google.dagger:hilt-android-compiler:2.42'
 
-    implementation "androidx.paging:paging-runtime-ktx:3.1.1"
+    implementation ("androidx.paging:paging-runtime-ktx:3.1.1") {
+        exclude group: 'androidx.lifecycle', module:'lifecycle-viewmodel'
+        exclude group: 'androidx.lifecycle', module:'lifecycle-viewmodel-ktx'
+    }
     implementation "androidx.room:room-ktx:2.4.3"
 }
