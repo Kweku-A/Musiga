@@ -1,4 +1,7 @@
-package com.kweku.armah.database.entity.feed
+package com.kweku.armah.database.entity.feed.fake
+
+import com.kweku.armah.database.entity.feed.CurrentTrackEntity
+import com.kweku.armah.database.entity.feed.FeedSessionEntity
 
 val feedSessionEntity1 = FeedSessionEntity(
     id = 1,
