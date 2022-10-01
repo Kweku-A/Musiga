@@ -25,16 +25,16 @@ internal fun MotionSearchToolBar(
     title: String,
     motionProgressProvider: () -> Float,
     maxHeightOfToolBarProvider: () -> Dp,
-    searchTextProvider:  () -> String,
+    searchTextProvider: () -> String,
     onSearchTextChanged: (String) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    isSearchingProvider: () -> Boolean
 ) {
     val innerPadding = 16.dp
     val context = LocalContext.current
     val motionScene = remember {
         context.resources.openRawResource(R.raw.collapse_toolbar).readBytes().decodeToString()
     }
-
 
     val boxHeight: (Dp) -> Dp = {
         it - innerPadding
@@ -69,6 +69,7 @@ internal fun MotionSearchToolBar(
         SearchBar(
             searchTextProvider = searchTextProvider,
             onSearchTextChanged = onSearchTextChanged,
+            isSearchingProvider = isSearchingProvider,
             modifier = Modifier.layoutId(searchId)
         )
     }

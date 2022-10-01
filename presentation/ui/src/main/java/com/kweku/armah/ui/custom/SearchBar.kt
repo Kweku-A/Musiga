@@ -2,9 +2,11 @@ package com.kweku.armah.ui.custom
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
@@ -26,6 +28,7 @@ internal fun SearchBar(
     onSearchTextChanged: (String) -> Unit,
     modifier: Modifier = Modifier,
     placeholderTextProvider: () -> String = { "Search" },
+    isSearchingProvider: () -> Boolean,
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current
 
@@ -52,12 +55,21 @@ internal fun SearchBar(
         ),
         leadingIcon = {
             val descriptionProvider: () -> String = { "search field" }
+            when (isSearchingProvider()) {
+                true -> {
+                    CircularProgressIndicator(
+                        modifier = Modifier.size(25.dp)
+                    )
+                }
 
-            Icon(
-                imageVector = Icons.Filled.Search,
-                contentDescription = descriptionProvider(),
-                tint = Color.Gray
-            )
+                false -> {
+                    Icon(
+                        imageVector = Icons.Filled.Search,
+                        contentDescription = descriptionProvider(),
+                        tint = Color.Gray
+                    )
+                }
+            }
         },
         maxLines = 1,
         singleLine = true,

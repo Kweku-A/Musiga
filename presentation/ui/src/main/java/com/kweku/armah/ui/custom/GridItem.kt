@@ -30,7 +30,7 @@ internal fun GridItem(session: SessionUi, modifier: Modifier = Modifier) {
             Image(
                 painter = rememberAsyncImagePainter(
                     model = ImageRequest.Builder(LocalContext.current)
-                        .data(session .artworkUrl)
+                        .data(session.artworkUrl)
                         .crossfade(enable = true)
                         .build()
                 ),
