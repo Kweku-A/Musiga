@@ -17,7 +17,7 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             MusigaTheme {
-                    AppNavigation()
+                AppNavigation()
             }
         }
     }
