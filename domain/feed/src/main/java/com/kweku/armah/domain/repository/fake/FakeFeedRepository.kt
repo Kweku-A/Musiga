@@ -10,7 +10,6 @@ import com.kweku.armah.networkresult.ApiResult.ApiSuccess
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.first
 
 class FakeFeedRepository : FeedRepository {
 
@@ -36,14 +35,5 @@ class FakeFeedRepository : FeedRepository {
 
     override fun getLocalFeed(): Flow<PagingData<Session>> {
         TODO("Not yet implemented")
-    }
-
-    /*override suspend fun getLocalFeed(): StateFlow<List<Session>> {
-        return sessionsFlow
-    }*/
-
-    override suspend fun deleteLocalFeed(): Boolean {
-        _sessionsFlow.value = emptyList()
-        return sessionsFlow.first().isEmpty()
     }
 }

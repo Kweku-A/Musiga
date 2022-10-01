@@ -9,6 +9,4 @@ interface FeedRepository {
     suspend fun getFeedDto(): ApiResult<Unit>
 
     fun getLocalFeed(): Flow<PagingData<Session>>
-
-    suspend fun deleteLocalFeed(): Boolean
 }
