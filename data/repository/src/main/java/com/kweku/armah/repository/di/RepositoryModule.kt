@@ -1,18 +1,15 @@
 package com.kweku.armah.repository.di
 
-import com.kweku.armah.database.dao.FeedDao
-import com.kweku.armah.database.dao.SearchFeedDao
 import com.kweku.armah.database.db.MusigaDatabase
 import com.kweku.armah.domain.repository.FeedRepository
 import com.kweku.armah.domain.repository.SearchFeedRepository
-import com.kweku.armah.network.datasource.FeedDatasource
-import com.kweku.armah.repository.FeedRepositoryImpl
-import com.kweku.armah.repository.SearchFeedRepositoryImpl
+import com.kweku.armah.network.datasource.contract.FeedDatasource
+import com.kweku.armah.repository.feed.FeedRepositoryImpl
+import com.kweku.armah.repository.search.SearchFeedRepositoryImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import kotlinx.coroutines.CoroutineScope
 import javax.inject.Singleton
 
 @Module
@@ -23,12 +20,10 @@ object RepositoryModule {
     @Provides
     fun providesFeedRepository(
         feedDatasource: FeedDatasource,
-        feedDao: FeedDao,
         musigaDatabase: MusigaDatabase,
     ): FeedRepository {
         return FeedRepositoryImpl(
             feedDatasource = feedDatasource,
-            feedDao = feedDao,
             musigaDatabase = musigaDatabase
         )
     }
@@ -36,14 +31,10 @@ object RepositoryModule {
     @Singleton
     @Provides
     fun providesSearchFeedRepository(
-        feedDatasource: FeedDatasource,
-        searchFeedDao: SearchFeedDao,
-        coroutineScope: CoroutineScope
+        feedDatasource: FeedDatasource
     ): SearchFeedRepository {
         return SearchFeedRepositoryImpl(
-            feedDatasource = feedDatasource,
-            searchFeedDao = searchFeedDao,
-            coroutineScope = coroutineScope
+            feedDatasource = feedDatasource
         )
     }
 }
