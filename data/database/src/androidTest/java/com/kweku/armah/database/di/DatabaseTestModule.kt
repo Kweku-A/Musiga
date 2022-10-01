@@ -6,21 +6,22 @@ import com.kweku.armah.database.converter.FeedTypeConverter
 import com.kweku.armah.database.db.MusigaDatabase
 import dagger.Module
 import dagger.Provides
-import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import dagger.hilt.testing.TestInstallIn
 import javax.inject.Singleton
 
 @Module
-@InstallIn(SingletonComponent::class)
-object DatabaseModule {
-
-    private const val DB_NAME = "musiga_db"
+@TestInstallIn(
+    components = [SingletonComponent::class],
+    replaces = [DatabaseModule::class]
+)
+object DatabaseTestModule {
 
     @Provides
     @Singleton
     fun providesDatabase(@ApplicationContext context: Context, feedTypeConverter: FeedTypeConverter) =
-        Room.databaseBuilder(context, MusigaDatabase::class.java, DB_NAME)
+        Room.inMemoryDatabaseBuilder(context, MusigaDatabase::class.java)
             .addTypeConverter(feedTypeConverter)
             .build()
 

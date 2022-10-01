@@ -10,7 +10,7 @@ import com.kweku.armah.database.entity.keys.RemoteKeys
 interface RemoteKeysDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertAll(remoteKey: List<RemoteKeys>)
+    suspend fun insertAll(remoteKeys: List<RemoteKeys>)
 
     @Query("SELECT * FROM remote_keys WHERE id = :id")
     suspend fun remoteKeysEntitiesId(id: Long): RemoteKeys?
