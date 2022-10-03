@@ -29,7 +29,6 @@ class FeedRepositoryTest {
     @get:Rule
     val hiltRule = HiltAndroidRule(this)
 
-
     @Before
     fun init() {
         hiltRule.inject()
