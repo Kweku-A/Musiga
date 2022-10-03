@@ -4,6 +4,7 @@ import androidx.compose.runtime.Immutable
 
 @Immutable
 data class SessionUi(
+    val id: Long,
     val artworkUrl: String,
     val title: String,
     val genres: String,

@@ -15,12 +15,12 @@ import com.kweku.armah.networkresult.ApiResult
 import com.kweku.armah.ui.model.SessionUi
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.cancelChildren
-import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -47,12 +47,11 @@ class FeedViewModel @Inject constructor(private val feedUseCases: FeedUseCases) 
     }
 
     fun getFeed() {
-        // val pagingData = feedUseCases.getFeedUseCase().cachedIn(viewModelScope)
-
         pagingDataSession =
             feedUseCases.getFeedUseCase().cachedIn(viewModelScope).map { pagingDataSession ->
                 pagingDataSession.map {
                     SessionUi(
+                        id = it.id,
                         title = it.currentTrack.title,
                         artworkUrl = it.currentTrack.artworkUrl,
                         name = it.name,
@@ -73,26 +72,29 @@ class FeedViewModel @Inject constructor(private val feedUseCases: FeedUseCases) 
             _isSearching.value = true
             _errorMessage.value = ""
             viewModelScope.launch {
-                when (val response = feedUseCases.searchFeedUseCase()) {
-                    is ApiResult.ApiSuccess -> {
-                        ensureActive()
-                        val list = response.data.map {
-                            SessionUi(
-                                title = it.currentTrack.title,
-                                artworkUrl = it.currentTrack.artworkUrl,
-                                name = it.name,
-                                genres = it.genres.joinToString(", "),
-                                listenerCount = it.listenerCount
-                            )
-                        }
-                        _searchDataSession.value = list.shuffled()
-                        _isSearching.value = false
-                    }
+                val response = feedUseCases.searchFeedUseCase()
+                if (isActive) {
+                    when (response) {
+                        is ApiResult.ApiSuccess -> {
 
-                    is ApiResult.ApiError -> {
-                        ensureActive()
-                        _errorMessage.value = response.type.message
-                        _isSearching.value = false
+                            val list = response.data.map {
+                                SessionUi(
+                                    id = it.id,
+                                    title = it.currentTrack.title,
+                                    artworkUrl = it.currentTrack.artworkUrl,
+                                    name = it.name,
+                                    genres = it.genres.joinToString(", "),
+                                    listenerCount = it.listenerCount
+                                )
+                            }
+                            _searchDataSession.value = list.shuffled()
+                            _isSearching.value = false
+                        }
+
+                        is ApiResult.ApiError -> {
+                            _errorMessage.value = response.type.message
+                            _isSearching.value = false
+                        }
                     }
                 }
             }
@@ -114,12 +116,14 @@ class FeedViewModel @Inject constructor(private val feedUseCases: FeedUseCases) 
                 }
 
                 loadState.mediator?.refresh is LoadState.Error -> {
-                    _errorMessage.value = (loadState.mediator?.refresh as LoadState.Error).error.message.orEmpty()
+                    _errorMessage.value =
+                        (loadState.mediator?.refresh as LoadState.Error).error.message.orEmpty()
                     false
                 }
 
                 loadState.mediator?.append is LoadState.Error -> {
-                    _errorMessage.value = (loadState.mediator?.refresh as LoadState.Error).error.message.orEmpty()
+                    _errorMessage.value =
+                        (loadState.mediator?.refresh as LoadState.Error).error.message.orEmpty()
                     false
                 }
 

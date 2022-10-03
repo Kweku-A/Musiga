@@ -18,12 +18,17 @@ import com.kweku.armah.ui.model.SessionUi
 
 @Composable
 internal fun ListenerIcon(session: SessionUi, modifier: Modifier = Modifier) {
+
+    val iconDescription = "listener icon"
+    val listenerCount = session.listenerCount.toString()
+    val image: Painter = painterResource(id = R.drawable.ic_listener)
+
     Box(modifier = Modifier.padding(start = 8.dp, top = 8.dp)) {
         Surface(
             shape = RoundedCornerShape(15.dp),
             color = Color.White.copy(alpha = 0.7f)
         ) {
-            val image: Painter = painterResource(id = R.drawable.ic_listener)
+
             Row(
                 modifier = Modifier.padding(5.dp),
                 horizontalArrangement = Arrangement.Center,
@@ -31,13 +36,13 @@ internal fun ListenerIcon(session: SessionUi, modifier: Modifier = Modifier) {
             ) {
                 Icon(
                     painter = image,
-                    contentDescription = "listener icon",
+                    contentDescription = iconDescription,
                     modifier = modifier
                         .size(width = 16.dp, 13.dp)
                         .padding(end = 2.dp)
                 )
                 Text(
-                    text = session.listenerCount.toString(),
+                    text = listenerCount,
                     fontSize = 12.sp,
                 )
             }

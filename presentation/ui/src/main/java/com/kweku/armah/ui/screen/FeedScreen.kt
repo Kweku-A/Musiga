@@ -6,41 +6,79 @@ import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Snackbar
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.Stable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.constraintlayout.compose.ConstrainedLayoutReference
-import androidx.constraintlayout.compose.ConstraintLayout
-import androidx.constraintlayout.compose.ConstraintLayoutScope
+import androidx.constraintlayout.compose.ExperimentalMotionApi
+import androidx.constraintlayout.compose.MotionLayout
+import androidx.constraintlayout.compose.MotionScene
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.kweku.armah.ui.R
 import com.kweku.armah.ui.custom.GridItem
-import com.kweku.armah.ui.custom.MotionSearchToolBar
+import com.kweku.armah.ui.custom.MotionToolBarContent
 import com.kweku.armah.ui.model.SessionUi
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(
+    ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class,
+    ExperimentalMotionApi::class
+)
 @Composable
 fun FeedScreen(viewModel: FeedViewModel = hiltViewModel(), navigateBack: () -> Unit) {
 
     val feedPagingItems: LazyPagingItems<SessionUi> =
         viewModel.pagingDataSession.collectAsLazyPagingItems()
+
+    val feedPagingItemCount: () -> Int = {
+        feedPagingItems.itemCount
+    }
 
     val scrollState = rememberLazyGridState()
 
@@ -49,14 +87,10 @@ fun FeedScreen(viewModel: FeedViewModel = hiltViewModel(), navigateBack: () -> U
         tween(500)
     )
 
-    val padding by animateDpAsState(
-        targetValue = if (remember { derivedStateOf { scrollState.firstVisibleItemIndex } }.value in 0..1) 216.dp else 90.dp,
+    val toolBarHeight by animateDpAsState(
+        targetValue = if (remember { derivedStateOf { scrollState.firstVisibleItemIndex } }.value in 0..1) 200.dp else 90.dp,
         tween(500)
     )
-
-    val paddingProvider: () -> Dp = {
-        padding
-    }
 
     val isLoadingItems by viewModel.isLoadingItems.collectAsState()
 
@@ -78,7 +112,7 @@ fun FeedScreen(viewModel: FeedViewModel = hiltViewModel(), navigateBack: () -> U
         SnackbarHostState()
     }
 
-    val retryFeed: () -> Unit = {
+    val retryFetchingFeed: () -> Unit = {
         viewModel.getFeed()
     }
 
@@ -88,7 +122,9 @@ fun FeedScreen(viewModel: FeedViewModel = hiltViewModel(), navigateBack: () -> U
 
     val errorMessage by viewModel.errorMessage.collectAsState()
     val retryText = stringResource(R.string.retry)
-    val showErrorMessage: (CoroutineScope) -> Unit = { scope ->
+
+    val scope = rememberCoroutineScope()
+    val showErrorMessage: () -> Unit = {
         scope.launch {
             snackBarHostState.showSnackbar(
                 message = errorMessage,
@@ -97,103 +133,112 @@ fun FeedScreen(viewModel: FeedViewModel = hiltViewModel(), navigateBack: () -> U
             )
         }
     }
+
+    val context = LocalContext.current
+    val motionScene = remember {
+        context.resources.openRawResource(R.raw.collapse_toolbar).readBytes().decodeToString()
+    }
+
     LaunchedEffect(key1 = errorMessage) {
         if (errorMessage.isNotEmpty()) {
-            showErrorMessage(this)
+            showErrorMessage()
         }
     }
 
     Scaffold(
         topBar = {
-            MotionSearchToolBar(
-                title = stringResource(R.string.title_discover),
-                motionProgressProvider = { progress.value },
-                isSearchingProvider = { isSearching },
-                maxHeightOfToolBarProvider = paddingProvider,
-                searchTextProvider = searchTextProvider,
-                onSearchTextChanged = onSearchTextChanged
-            )
-        }, containerColor = Color.Black, snackbarHost = {
-        SnackbarHost(hostState = snackBarHostState) {
-            Snackbar(
-                Modifier,
-                action = {
-                    Button(
-                        onClick = {
-                            retryFeed()
-                            it.dismiss()
-                        },
-                        colors = ButtonDefaults.buttonColors(containerColor = Color.Transparent)
-                    ) {
-                        Text(text = it.visuals.actionLabel.orEmpty())
-                    }
-                },
-                dismissAction = {
-                    IconButton(onClick = { it.dismiss() }) {
-                        Icon(
-                            imageVector = Icons.Filled.Close,
-                            contentDescription = stringResource(R.string.dismiss_snackbar_description),
-                            tint = Color.Gray
-                        )
-                    }
-                },
-                actionOnNewLine = false,
+            MotionLayout(
+                motionScene = MotionScene(content = motionScene),
+                progress = progress.value,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(color = MaterialTheme.colorScheme.onSurface)
             ) {
-                Text(it.visuals.message)
+                MotionToolBarContent(
+                    heading = stringResource(R.string.title_discover),
+                    isSearchingProvider = { isSearching },
+                    searchTextProvider = searchTextProvider,
+                    onSearchTextChanged = onSearchTextChanged,
+                )
             }
-        }
-    }
+        },
+        containerColor = MaterialTheme.colorScheme.onSurface,
+        snackbarHost = {
+            SnackbarHost(hostState = snackBarHostState) {
+                Snackbar(
+                    Modifier,
+                    action = {
+                        Button(
+                            onClick = {
+                                retryFetchingFeed()
+                                it.dismiss()
+                            },
+                            colors = ButtonDefaults.buttonColors(containerColor = Color.Transparent)
+                        ) {
+                            Text(text = it.visuals.actionLabel.orEmpty())
+                        }
+                    },
+                    dismissAction = {
+                        IconButton(onClick = { it.dismiss() }) {
+                            Icon(
+                                imageVector = Icons.Filled.Close,
+                                contentDescription = stringResource(R.string.dismiss_snackbar_description),
+                                tint = Color.Gray
+                            )
+                        }
+                    },
+                    actionOnNewLine = false,
+                ) {
+                    Text(it.visuals.message)
+                }
+            }
+        },
 
     ) { paddingValues ->
-        val padding1 = paddingValues
         Surface(
             modifier = Modifier
                 .padding(
-                    top = padding, bottom = paddingValues.calculateBottomPadding()
+                    top = toolBarHeight, bottom = paddingValues.calculateBottomPadding()
                 )
                 .fillMaxSize(),
-            color = Color.Black
+            color = MaterialTheme.colorScheme.onSurface
         ) {
-            ConstraintLayout {
-                val (gridList, progressBar) = createRefs()
+            Column {
 
                 if (searchText.isEmpty()) {
                     LazyVerticalGrid(
                         columns = GridCells.Fixed(2),
                         state = scrollState,
-                        modifier = Modifier
-                            .padding(bottom = 16.dp, start = 7.dp, end = 7.dp)
-                            .fillMaxSize()
-                            .constrainAs(gridList) {
-                                top.linkTo(parent.top)
-                                start.linkTo(parent.start)
-                                end.linkTo(parent.end)
-                                bottom.linkTo(progressBar.top)
-                            }
+                        contentPadding = PaddingValues(
+                            top = 16.dp, start = 16.dp, end = 16.dp
+                        ),
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.spacedBy(16.dp),
+                        verticalArrangement = Arrangement.spacedBy(16.dp)
                     ) {
-                        items(feedPagingItems.itemCount) {
-                            val item = feedPagingItems[it]
-                            if (item != null) {
+
+                        items(count = feedPagingItemCount()) {
+                            val sessionUi = feedPagingItems[it]
+                            if (sessionUi != null) {
                                 GridItem(
-                                    session = item,
+                                    session = sessionUi,
                                     modifier = Modifier
-                                        .padding(
-                                            start = 8.dp, bottom = 16.dp, end = 8.dp
-                                        )
                                         .fillMaxWidth()
                                         .aspectRatio(1f)
                                 )
                             }
                         }
+                        item(span = { GridItemSpan(2) }) {
+                            LoadingIndicator(
+                                isLoadingItemsProvider = { isLoadingItems },
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .height(50.dp)
+                            )
+                        }
                     }
 
                     onLoadingItemsEvent(feedPagingItems)
-
-                    LoadingIndicator(
-                        isLoadingItemsProvider = { isLoadingItems },
-                        indicatorRef = progressBar,
-                        linkedToRef = gridList
-                    )
                 } else {
                     LazyVerticalGrid(
                         columns = GridCells.Fixed(2),
@@ -222,27 +267,18 @@ fun FeedScreen(viewModel: FeedViewModel = hiltViewModel(), navigateBack: () -> U
 
 @Stable
 @Composable
-private fun ConstraintLayoutScope.LoadingIndicator(
+private fun LoadingIndicator(
     isLoadingItemsProvider: () -> Boolean,
-    indicatorRef: ConstrainedLayoutReference,
-    linkedToRef: ConstrainedLayoutReference
+    modifier: Modifier = Modifier
 ) {
     AnimatedVisibility(
         visible = isLoadingItemsProvider(),
         enter = fadeIn(animationSpec = tween(durationMillis = 500)),
         exit = fadeOut(animationSpec = tween(durationMillis = 500)),
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(80.dp)
-            .constrainAs(indicatorRef) {
-                top.linkTo(linkedToRef.bottom)
-                start.linkTo(parent.start)
-                end.linkTo(parent.end)
-                bottom.linkTo(parent.bottom)
-            }
+        modifier = modifier
     ) {
         Box(
-            contentAlignment = Alignment.TopCenter, modifier = Modifier.fillMaxSize()
+            contentAlignment = Alignment.Center, modifier = Modifier.fillMaxSize()
         ) {
             CircularProgressIndicator(
                 modifier = Modifier
