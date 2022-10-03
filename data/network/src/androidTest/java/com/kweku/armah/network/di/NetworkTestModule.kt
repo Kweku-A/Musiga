@@ -1,7 +1,6 @@
 package com.kweku.armah.network.di
 
 import com.kweku.armah.network.client.contract.KtorClient
-import com.kweku.armah.network.client.KtorClientImpl
 import com.kweku.armah.network.client.mock.KtorClientMock
 import com.kweku.armah.network.datasource.contract.FeedDatasource
 import com.kweku.armah.network.datasource.FeedDatasourceImpl
@@ -10,11 +9,9 @@ import com.kweku.armah.network.service.KtorApiService
 import com.kweku.armah.network.service.mock.MockApi
 import dagger.Module
 import dagger.Provides
-import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import dagger.hilt.testing.TestInstallIn
 import io.ktor.client.HttpClient
-import io.ktor.client.engine.cio.CIO
 import kotlinx.coroutines.CoroutineDispatcher
 import javax.inject.Singleton
 

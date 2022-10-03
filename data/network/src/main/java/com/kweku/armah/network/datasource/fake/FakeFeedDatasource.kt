@@ -6,7 +6,7 @@ import com.kweku.armah.network.entity.fake.fakeFeedDto
 import com.kweku.armah.networkresult.ApiResult
 import javax.inject.Inject
 
-class FakeFeedDatasource @Inject constructor(): FeedDatasource {
+class FakeFeedDatasource @Inject constructor() : FeedDatasource {
 
     var response: ApiResult<FeedDto> = ApiResult.ApiSuccess(fakeFeedDto)
 

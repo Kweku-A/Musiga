@@ -10,15 +10,3 @@ val feedSessionEntity1 = FeedSessionEntity(
     listenerCount = 50,
     name = "f"
 )
-
-val feedSessionEntity2 = FeedSessionEntity(
-    id = 2,
-    currentTrackEntity = CurrentTrackEntity(artworkUrl = "g", title = "h"),
-    genres = listOf("i", "d", "e"),
-    listenerCount = 5,
-    name = "j"
-)
-
-val fakeSessionEntities = listOf(
-    feedSessionEntity1, feedSessionEntity2
-)
