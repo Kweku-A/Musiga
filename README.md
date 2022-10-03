@@ -12,7 +12,7 @@ This is a demo app developed to demonstrate the loading of music feed from a net
 - Moshi - A JSON library 
 - Room - for local data storage
 - Paging 3 - for pagination
-- Ktlint - for testing
+- Ktlint - static code analysis
 
 
 ## Build 
