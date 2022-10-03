@@ -74,21 +74,6 @@
         width: 'spread',
         height: 'wrap',
         visibility: 'gone',
-//        start: [
-//          'parent',
-//          'end',
-//          16
-//        ],
-//        bottom: [
-//          'parent',
-//          'bottom',
-//          16
-//        ],
-//        end: [
-//          'parent',
-//          'end',
-//          16
-//        ]
       },
       box: {
         width: 'spread',
@@ -122,11 +107,6 @@
           },
         ],
         KeyAttributes: [
-//          {
-//            target: ['search'],
-//            frames: [0,1,100],
-//            alpha: [1,0,0]
-//          },
           {
             target: ['title'],
             frames: [0,5,100],
