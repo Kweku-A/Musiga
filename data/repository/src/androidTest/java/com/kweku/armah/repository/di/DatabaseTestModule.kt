@@ -1,9 +1,10 @@
-package com.kweku.armah.database.di
+package com.kweku.armah.repository.di
 
 import android.content.Context
 import androidx.room.Room
 import com.kweku.armah.database.converter.FeedTypeConverter
 import com.kweku.armah.database.db.MusigaDatabase
+import com.kweku.armah.database.di.DatabaseModule
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.android.qualifiers.ApplicationContext
