@@ -131,13 +131,12 @@ class FeedViewModel @Inject constructor(private val feedUseCases: FeedUseCases) 
             }
         }
     }
-    
+
     fun retryNetworkCall(searchParam: String) {
-        if(searchParam.isNotEmpty()){
+        if (searchParam.isNotEmpty()) {
             onSearchFeedText(searchParam)
-        }else{
+        } else {
             getFeed()
         }
-
     }
 }

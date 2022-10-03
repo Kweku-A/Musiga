@@ -193,7 +193,7 @@ fun FeedScreen(viewModel: FeedViewModel = hiltViewModel(), navigateBack: () -> U
             }
         },
 
-        ) { paddingValues ->
+    ) { paddingValues ->
         Surface(
             modifier = Modifier
                 .padding(

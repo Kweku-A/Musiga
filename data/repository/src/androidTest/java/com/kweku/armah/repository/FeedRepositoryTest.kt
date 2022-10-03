@@ -49,7 +49,7 @@ class FeedRepositoryTest {
     }
 
     @After
-    fun tear_down(){
+    fun tear_down() {
         musigaDatabase.clearAllTables()
         musigaDatabase.close()
     }
