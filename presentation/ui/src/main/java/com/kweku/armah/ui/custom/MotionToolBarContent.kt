@@ -2,7 +2,7 @@ package com.kweku.armah.ui.custom
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -15,17 +15,17 @@ import com.kweku.armah.ui.R
 @Composable
 internal fun MotionToolBarContent(
     heading: String,
+    placeholderText: String,
     isSearchingFeedProvider: () -> Boolean,
     searchFeedTextProvider: () -> String,
     onSearchFeedTextChanged: (String) -> Unit,
 ) {
-
     val boxId = stringResource(R.string.box)
     val titleId = stringResource(R.string.title)
     val searchId = stringResource(R.string.search)
 
     val spacerModifier = Modifier
-        .fillMaxWidth()
+        .fillMaxSize()
         .background(color = Color.White.copy(alpha = 0.12f))
         .layoutId(boxId)
 
@@ -44,6 +44,7 @@ internal fun MotionToolBarContent(
         color = Color.White
     )
     SearchBar(
+        placeholderText = placeholderText,
         searchTextProvider = searchFeedTextProvider,
         onSearchTextChanged = onSearchFeedTextChanged,
         isSearchingProvider = isSearchingFeedProvider,
