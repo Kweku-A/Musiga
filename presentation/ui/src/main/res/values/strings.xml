@@ -3,4 +3,8 @@
     <string name="title_discover">Discover</string>
     <string name="retry">Retry</string>
     <string name="dismiss_snackbar_description">dismiss snack bar</string>
+    <string name="search_field">search field</string>
+    <string name="box">box</string>
+    <string name="title">title</string>
+    <string name="search">search</string>
 </resources>
