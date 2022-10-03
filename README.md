@@ -22,10 +22,11 @@ Development was done using Android Studio Preview (Falmingo) hence using the gra
 This is a one screen demo app and shows the integration of an animated toolbar with search component, uing a custom implementation of the toolbar with MotionLayout to animate the toolbar on scroll.
 
 ## Structure
-The app is structured to have 3 basic layers
+The app is structured to have 3 basic/main layers
 - Domain
 - Data
 - Presentation
+
 The app is modularised so as to make it more maintainable and testable.
 
 ## Test
