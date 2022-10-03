@@ -112,7 +112,7 @@ fun FeedScreen(viewModel: FeedViewModel = hiltViewModel(), navigateBack: () -> U
     }
 
     val retryFetchingFeed: () -> Unit = {
-        viewModel.getFeed()
+        viewModel.retryNetworkCall(searchFeedText)
     }
 
     val checkForNextItemsToLoad: (LazyPagingItems<SessionUi>) -> Unit = {
