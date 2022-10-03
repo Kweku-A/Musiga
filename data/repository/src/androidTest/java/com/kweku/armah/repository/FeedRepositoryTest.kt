@@ -9,6 +9,7 @@ import com.kweku.armah.repository.feed.FeedRepositoryImpl
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.runBlocking
+import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
@@ -38,10 +39,18 @@ class FeedRepositoryTest {
     @Test
     fun should_fetch_feed_dto_and_insert_into_db() {
         val expected = fakeFeedDto.responseDataDto.sessionDtos.size
-        val result = runBlocking { sut.getFeedDto() }
+        val result = runBlocking {
+            sut.getFeedDto()
+        }
         assert(result is ApiSuccess)
 
         val actual = musigaDatabase.feedDao().getFeedCount()
         assertEquals(expected, actual)
+    }
+
+    @After
+    fun tear_down(){
+        musigaDatabase.clearAllTables()
+        musigaDatabase.close()
     }
 }
