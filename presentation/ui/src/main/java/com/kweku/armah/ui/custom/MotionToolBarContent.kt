@@ -15,9 +15,9 @@ import com.kweku.armah.ui.R
 @Composable
 internal fun MotionToolBarContent(
     heading: String,
-    isSearchingProvider: () -> Boolean,
-    searchTextProvider: () -> String,
-    onSearchTextChanged: (String) -> Unit,
+    isSearchingFeedProvider: () -> Boolean,
+    searchFeedTextProvider: () -> String,
+    onSearchFeedTextChanged: (String) -> Unit,
 ) {
 
     val boxId = stringResource(R.string.box)
@@ -44,9 +44,9 @@ internal fun MotionToolBarContent(
         color = Color.White
     )
     SearchBar(
-        searchTextProvider = searchTextProvider,
-        onSearchTextChanged = onSearchTextChanged,
-        isSearchingProvider = isSearchingProvider,
+        searchTextProvider = searchFeedTextProvider,
+        onSearchTextChanged = onSearchFeedTextChanged,
+        isSearchingProvider = isSearchingFeedProvider,
         modifier = searchModifier
     )
 }

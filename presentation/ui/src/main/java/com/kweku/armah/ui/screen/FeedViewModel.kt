@@ -33,14 +33,14 @@ class FeedViewModel @Inject constructor(private val feedUseCases: FeedUseCases) 
     private val _searchDataSession = MutableStateFlow<List<SessionUi>>(emptyList())
     val searchDataSession: StateFlow<List<SessionUi>> = _searchDataSession
 
-    private val _isSearching = MutableStateFlow(false)
-    val isSearching: StateFlow<Boolean> = _isSearching
+    private val _isSearchingFeed = MutableStateFlow(false)
+    val isSearchingFeed: StateFlow<Boolean> = _isSearchingFeed
 
     private var _errorMessage = MutableStateFlow("")
     val errorMessage: StateFlow<String> = _errorMessage
 
-    private var _isLoadingItems = MutableStateFlow(false)
-    val isLoadingItems: StateFlow<Boolean> = _isLoadingItems
+    private var _isLoadingNextItems = MutableStateFlow(false)
+    val isLoadingNextItems: StateFlow<Boolean> = _isLoadingNextItems
 
     init {
         getFeed()
@@ -65,11 +65,11 @@ class FeedViewModel @Inject constructor(private val feedUseCases: FeedUseCases) 
     var searchedText = MutableStateFlow("")
         private set
 
-    fun onSearchText(searchParam: String) {
+    fun onSearchFeedText(searchParam: String) {
         searchedText.value = searchParam
         viewModelScope.coroutineContext.cancelChildren()
         if (searchParam.isNotEmpty()) {
-            _isSearching.value = true
+            _isSearchingFeed.value = true
             _errorMessage.value = ""
             viewModelScope.launch {
                 val response = feedUseCases.searchFeedUseCase()
@@ -88,25 +88,25 @@ class FeedViewModel @Inject constructor(private val feedUseCases: FeedUseCases) 
                                 )
                             }
                             _searchDataSession.value = list.shuffled()
-                            _isSearching.value = false
+                            _isSearchingFeed.value = false
                         }
 
                         is ApiResult.ApiError -> {
                             _errorMessage.value = response.type.message
-                            _isSearching.value = false
+                            _isSearchingFeed.value = false
                         }
                     }
                 }
             }
         } else {
-            _isSearching.value = false
+            _isSearchingFeed.value = false
             getFeed()
         }
     }
 
-    fun getState(lazyPagingItems: LazyPagingItems<SessionUi>) {
+    fun checkIfLoadingNextPage(lazyPagingItems: LazyPagingItems<SessionUi>) {
         lazyPagingItems.apply {
-            _isLoadingItems.value = when {
+            _isLoadingNextItems.value = when {
                 loadState.mediator?.refresh is LoadState.Loading -> {
                     true
                 }

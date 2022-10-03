@@ -10,7 +10,6 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
@@ -76,36 +75,36 @@ fun FeedScreen(viewModel: FeedViewModel = hiltViewModel(), navigateBack: () -> U
     val feedPagingItems: LazyPagingItems<SessionUi> =
         viewModel.pagingDataSession.collectAsLazyPagingItems()
 
-    val feedPagingItemCount: () -> Int = {
+    val feedPagingItemsCount: () -> Int = {
         feedPagingItems.itemCount
     }
 
-    val scrollState = rememberLazyGridState()
+    val gridScrollState = rememberLazyGridState()
 
     val progress = animateFloatAsState(
-        targetValue = if (remember { derivedStateOf { scrollState.firstVisibleItemIndex } }.value in 0..1) 0f else 1f,
+        targetValue = if (remember { derivedStateOf { gridScrollState.firstVisibleItemIndex } }.value in 0..1) 0f else 1f,
         tween(500)
     )
 
     val toolBarHeight by animateDpAsState(
-        targetValue = if (remember { derivedStateOf { scrollState.firstVisibleItemIndex } }.value in 0..1) 200.dp else 90.dp,
+        targetValue = if (remember { derivedStateOf { gridScrollState.firstVisibleItemIndex } }.value in 0..1) 200.dp else 90.dp,
         tween(500)
     )
 
-    val isLoadingItems by viewModel.isLoadingItems.collectAsState()
+    val isLoadingNextItems by viewModel.isLoadingNextItems.collectAsState()
 
-    val searchList by viewModel.searchDataSession.collectAsState(initial = emptyList())
+    val searchedFeedList by viewModel.searchDataSession.collectAsState(initial = emptyList())
 
-    val searchText by viewModel.searchedText.collectAsState()
+    val searchFeedText by viewModel.searchedText.collectAsState()
 
-    val searchTextProvider: () -> String = {
-        searchText
+    val searchFeedTextProvider: () -> String = {
+        searchFeedText
     }
 
-    val isSearching by viewModel.isSearching.collectAsState()
+    val isSearchingFeed by viewModel.isSearchingFeed.collectAsState()
 
-    val onSearchTextChanged: (String) -> Unit = {
-        viewModel.onSearchText(it)
+    val onSearchFeedTextChanged: (String) -> Unit = {
+        viewModel.onSearchFeedText(it)
     }
 
     val snackBarHostState = remember {
@@ -116,8 +115,8 @@ fun FeedScreen(viewModel: FeedViewModel = hiltViewModel(), navigateBack: () -> U
         viewModel.getFeed()
     }
 
-    val onLoadingItemsEvent: (LazyPagingItems<SessionUi>) -> Unit = {
-        viewModel.getState(it)
+    val checkForNextItemsToLoad: (LazyPagingItems<SessionUi>) -> Unit = {
+        viewModel.checkIfLoadingNextPage(it)
     }
 
     val errorMessage by viewModel.errorMessage.collectAsState()
@@ -156,9 +155,9 @@ fun FeedScreen(viewModel: FeedViewModel = hiltViewModel(), navigateBack: () -> U
             ) {
                 MotionToolBarContent(
                     heading = stringResource(R.string.title_discover),
-                    isSearchingProvider = { isSearching },
-                    searchTextProvider = searchTextProvider,
-                    onSearchTextChanged = onSearchTextChanged,
+                    isSearchingFeedProvider = { isSearchingFeed },
+                    searchFeedTextProvider = searchFeedTextProvider,
+                    onSearchFeedTextChanged = onSearchFeedTextChanged,
                 )
             }
         },
@@ -194,7 +193,7 @@ fun FeedScreen(viewModel: FeedViewModel = hiltViewModel(), navigateBack: () -> U
             }
         },
 
-    ) { paddingValues ->
+        ) { paddingValues ->
         Surface(
             modifier = Modifier
                 .padding(
@@ -203,61 +202,59 @@ fun FeedScreen(viewModel: FeedViewModel = hiltViewModel(), navigateBack: () -> U
                 .fillMaxSize(),
             color = MaterialTheme.colorScheme.onSurface
         ) {
-            Column {
 
-                if (searchText.isEmpty()) {
-                    LazyVerticalGrid(
-                        columns = GridCells.Fixed(2),
-                        state = scrollState,
-                        contentPadding = PaddingValues(
-                            top = 16.dp, start = 16.dp, end = 16.dp
-                        ),
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.spacedBy(16.dp),
-                        verticalArrangement = Arrangement.spacedBy(16.dp)
-                    ) {
+            if (searchFeedText.isEmpty()) {
+                LazyVerticalGrid(
+                    columns = GridCells.Fixed(2),
+                    state = gridScrollState,
+                    contentPadding = PaddingValues(
+                        top = 16.dp, start = 16.dp, end = 16.dp
+                    ),
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(16.dp),
+                    verticalArrangement = Arrangement.spacedBy(16.dp)
+                ) {
 
-                        items(count = feedPagingItemCount()) {
-                            val sessionUi = feedPagingItems[it]
-                            if (sessionUi != null) {
-                                GridItem(
-                                    session = sessionUi,
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .aspectRatio(1f)
-                                )
-                            }
-                        }
-                        item(span = { GridItemSpan(2) }) {
-                            LoadingIndicator(
-                                isLoadingItemsProvider = { isLoadingItems },
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .height(50.dp)
-                            )
-                        }
-                    }
-
-                    onLoadingItemsEvent(feedPagingItems)
-                } else {
-                    LazyVerticalGrid(
-                        columns = GridCells.Fixed(2),
-                        state = scrollState,
-                        modifier = Modifier
-                            .padding(bottom = 16.dp, start = 7.dp, end = 7.dp)
-                            .fillMaxWidth()
-                    ) {
-                        items(items = searchList) {
+                    items(count = feedPagingItemsCount()) {
+                        val sessionUi = feedPagingItems[it]
+                        if (sessionUi != null) {
                             GridItem(
-                                session = it,
+                                session = sessionUi,
                                 modifier = Modifier
-                                    .padding(
-                                        start = 8.dp, bottom = 16.dp, end = 8.dp
-                                    )
                                     .fillMaxWidth()
                                     .aspectRatio(1f)
                             )
                         }
+                    }
+                    item(span = { GridItemSpan(2) }) {
+                        LoadingIndicator(
+                            isLoadingItemsProvider = { isLoadingNextItems },
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(50.dp)
+                        )
+                    }
+                }
+
+                checkForNextItemsToLoad(feedPagingItems)
+            } else {
+                LazyVerticalGrid(
+                    columns = GridCells.Fixed(2),
+                    state = gridScrollState,
+                    modifier = Modifier
+                        .padding(bottom = 16.dp, start = 7.dp, end = 7.dp)
+                        .fillMaxWidth()
+                ) {
+                    items(items = searchedFeedList) {
+                        GridItem(
+                            session = it,
+                            modifier = Modifier
+                                .padding(
+                                    start = 8.dp, bottom = 16.dp, end = 8.dp
+                                )
+                                .fillMaxWidth()
+                                .aspectRatio(1f)
+                        )
                     }
                 }
             }

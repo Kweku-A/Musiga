@@ -30,7 +30,7 @@ import com.kweku.armah.ui.R
 import com.kweku.armah.ui.model.SessionUi
 
 @Composable
-fun GridItem(session: SessionUi, modifier: Modifier = Modifier) {
+internal fun GridItem(session: SessionUi, modifier: Modifier = Modifier) {
     Surface(
         shape = RoundedCornerShape(size = 10.dp),
         color = Color.Transparent,
@@ -47,6 +47,7 @@ fun GridItem(session: SessionUi, modifier: Modifier = Modifier) {
                 .data(session.artworkUrl)
                 .fallback(R.drawable.ic_placeholder)
                 .placeholder(R.drawable.ic_placeholder)
+                .crossfade(500)
                 .scale(Scale.FIT)
                 .build(),
         )
@@ -98,22 +99,5 @@ fun GridItem(session: SessionUi, modifier: Modifier = Modifier) {
                     .align(Alignment.TopStart)
             )
         }
-    }
-}
-
-@Composable
-internal fun GridItemPlaceholder(modifier: Modifier = Modifier) {
-    Surface(
-        shape = RoundedCornerShape(size = 10.dp),
-        modifier = modifier,
-        color = Color.Transparent
-    ) {
-
-        Image(
-            painter = painterResource(R.drawable.ic_placeholder),
-            contentDescription = "placeholder",
-            contentScale = ContentScale.Fit,
-            modifier = Modifier.fillMaxSize()
-        )
     }
 }
