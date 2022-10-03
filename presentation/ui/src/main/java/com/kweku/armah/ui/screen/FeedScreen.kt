@@ -155,6 +155,7 @@ fun FeedScreen(viewModel: FeedViewModel = hiltViewModel(), navigateBack: () -> U
             ) {
                 MotionToolBarContent(
                     heading = stringResource(R.string.title_discover),
+                    placeholderText = stringResource(R.string.search_placeholder),
                     isSearchingFeedProvider = { isSearchingFeed },
                     searchFeedTextProvider = searchFeedTextProvider,
                     onSearchFeedTextChanged = onSearchFeedTextChanged,
@@ -241,17 +242,17 @@ fun FeedScreen(viewModel: FeedViewModel = hiltViewModel(), navigateBack: () -> U
                 LazyVerticalGrid(
                     columns = GridCells.Fixed(2),
                     state = gridScrollState,
-                    modifier = Modifier
-                        .padding(bottom = 16.dp, start = 7.dp, end = 7.dp)
-                        .fillMaxWidth()
+                    contentPadding = PaddingValues(
+                        top = 16.dp, start = 16.dp, end = 16.dp
+                    ),
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(16.dp),
+                    verticalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
                     items(items = searchedFeedList) {
                         GridItem(
                             session = it,
                             modifier = Modifier
-                                .padding(
-                                    start = 8.dp, bottom = 16.dp, end = 8.dp
-                                )
                                 .fillMaxWidth()
                                 .aspectRatio(1f)
                         )
