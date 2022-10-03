@@ -69,14 +69,14 @@ class FeedViewModel @Inject constructor(private val feedUseCases: FeedUseCases) 
         searchedText.value = searchParam
         viewModelScope.coroutineContext.cancelChildren()
         if (searchParam.isNotEmpty()) {
-            _isSearchingFeed.value = true
             _errorMessage.value = ""
             viewModelScope.launch {
+                _isSearchingFeed.value = true
                 val response = feedUseCases.searchFeedUseCase()
+                _isSearchingFeed.value = false
                 if (isActive) {
                     when (response) {
                         is ApiResult.ApiSuccess -> {
-
                             val list = response.data.map {
                                 SessionUi(
                                     id = it.id,
@@ -88,12 +88,10 @@ class FeedViewModel @Inject constructor(private val feedUseCases: FeedUseCases) 
                                 )
                             }
                             _searchDataSession.value = list.shuffled()
-                            _isSearchingFeed.value = false
                         }
 
                         is ApiResult.ApiError -> {
                             _errorMessage.value = response.type.message
-                            _isSearchingFeed.value = false
                         }
                     }
                 }
