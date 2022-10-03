@@ -10,9 +10,12 @@ java {
 
 dependencies {
     implementation project(':networkwrapper')
-    implementation 'androidx.paging:paging-common-ktx:3.1.1'
-    testImplementation "junit:junit:4.13.2"
-    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4"
 
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_core_version"
+    implementation "androidx.paging:paging-common-ktx:$paging_version"
+
+    testImplementation "junit:junit:$junit_version"
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutines_core_version"
+
+
 }
