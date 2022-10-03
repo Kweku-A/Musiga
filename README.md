@@ -1,7 +1,7 @@
 # Musiga
 This is a demo app developed to demonstrate the loading of music feed from a network endpoint
 
-## Tech Stack
+## Tech Stack and libraries
 - Kotlin 
 - Jetpack compose
 - Hilt - for dependency injection
