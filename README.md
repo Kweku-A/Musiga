@@ -19,7 +19,7 @@ This is a demo app developed to demonstrate the loading of music feed from a net
 Development was done using Android Studio Preview (Falmingo) hence using the gradle plugin version '8.0.0-alpha02'. To Run this on a lower/more stable version change the gradle version
 
 ## Info
-This is a one screen demo app and shows the integration of an animated toolbar with search component. A custom implementation with MotionLayout to anumate the toolbar on scroll.
+This is a one screen demo app and shows the integration of an animated toolbar with search component, uing a custom implementation of the toolbar with MotionLayout to animate the toolbar on scroll.
 
 ## Structure
 The app is structured to have 3 basic layers
