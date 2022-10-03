@@ -15,12 +15,6 @@ interface RemoteKeysDao {
     @Query("SELECT * FROM remote_keys WHERE id = :id")
     suspend fun remoteKeysEntitiesId(id: Long): RemoteKeys?
 
-    @Query("SELECT * FROM remote_keys ORDER BY id ASC LIMIT 1")
-    suspend fun remoteKeysFirstItem(): RemoteKeys?
-
-    @Query("SELECT * FROM remote_keys ORDER BY id DESC LIMIT 1")
-    suspend fun remoteKeysLastItem(): RemoteKeys?
-
     @Query("DELETE FROM remote_keys")
     suspend fun deleteRemoteKeys()
 }

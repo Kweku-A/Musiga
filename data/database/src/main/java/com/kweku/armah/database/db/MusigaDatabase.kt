@@ -9,7 +9,7 @@ import com.kweku.armah.database.dao.RemoteKeysDao
 import com.kweku.armah.database.entity.feed.FeedSessionEntity
 import com.kweku.armah.database.entity.keys.RemoteKeys
 
-@Database(entities = [FeedSessionEntity::class, RemoteKeys::class], version = 1, exportSchema = true)
+@Database(entities = [FeedSessionEntity::class, RemoteKeys::class], version = 1, exportSchema = false)
 @TypeConverters(FeedTypeConverter::class)
 abstract class MusigaDatabase : RoomDatabase() {
     abstract fun feedDao(): FeedDao

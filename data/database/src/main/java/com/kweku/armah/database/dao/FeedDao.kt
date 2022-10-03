@@ -12,11 +12,8 @@ interface FeedDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertFeedEntities(sessionEntities: List<FeedSessionEntity>)
 
-    @Query("SELECT * FROM feed_session")
+    @Query("SELECT * FROM feed_session ORDER BY id ASC")
     fun getFeedEntities(): PagingSource<Int, FeedSessionEntity>
-
-    @Query("SELECT id FROM feed_session ORDER BY id DESC LIMIT 1")
-    fun getLastFeedId(): Long
 
     @Query("SELECT Count(id) FROM feed_session")
     fun getFeedCount(): Int
