@@ -5,7 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
-import com.kweku.armah.musiga.navigation.AppNavigation
+import com.kweku.armah.musiga.navigation.AppNavGraph
 import com.kweku.armah.musiga.ui.theme.MusigaTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -17,7 +17,7 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             MusigaTheme {
-                AppNavigation()
+                AppNavGraph()
             }
         }
     }

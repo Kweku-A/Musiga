@@ -8,7 +8,7 @@ import com.kweku.armah.musiga.navigation.routes.NavRoutes
 import com.kweku.armah.ui.screen.FeedScreen
 
 @Composable
-fun AppNavigation() {
+fun AppNavGraph() {
     val navController = rememberNavController()
 
     NavHost(
