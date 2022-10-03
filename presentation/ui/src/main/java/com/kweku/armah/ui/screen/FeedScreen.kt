@@ -243,7 +243,7 @@ fun FeedScreen(viewModel: FeedViewModel = hiltViewModel(), navigateBack: () -> U
                     columns = GridCells.Fixed(2),
                     state = gridScrollState,
                     contentPadding = PaddingValues(
-                        top = 16.dp, start = 16.dp, end = 16.dp
+                        top = 16.dp, start = 16.dp, end = 16.dp, bottom = 16.dp
                     ),
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.spacedBy(16.dp),
