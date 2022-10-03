@@ -46,7 +46,7 @@ class FeedViewModel @Inject constructor(private val feedUseCases: FeedUseCases) 
         getFeed()
     }
 
-    fun getFeed() {
+    private fun getFeed() {
         pagingDataSession =
             feedUseCases.getFeedUseCase().cachedIn(viewModelScope).map { pagingDataSession ->
                 pagingDataSession.map {
