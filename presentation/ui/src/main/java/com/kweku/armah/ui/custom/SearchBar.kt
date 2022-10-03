@@ -34,7 +34,7 @@ internal fun SearchBar(
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current
     val focusManager = LocalFocusManager.current
-    val showLeadingIcon: @Composable ()-> Unit={
+    val showLeadingIcon: @Composable () -> Unit = {
         when (isSearchingProvider()) {
             true -> {
                 CircularProgressIndicator(

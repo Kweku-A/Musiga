@@ -11,7 +11,6 @@ import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
-import kotlin.random.Random
 
 class SearchFeedRepositoryTest {
 

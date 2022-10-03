@@ -10,13 +10,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.constraintlayout.compose.ExperimentalMotionApi
 import com.kweku.armah.ui.R
 
 @Composable
 internal fun MotionToolBarContent(
     heading: String,
-    isSearchingProvider:()->  Boolean,
+    isSearchingProvider: () -> Boolean,
     searchTextProvider: () -> String,
     onSearchTextChanged: (String) -> Unit,
 ) {
