@@ -57,4 +57,5 @@ dependencies {
     testImplementation "junit:junit:$junit_version"
 
     androidTestImplementation "androidx.test.ext:junit:$junit_ext_version"
+    androidTestImplementation "com.google.dagger:hilt-android-testing:$hilt_android_version"
 }
