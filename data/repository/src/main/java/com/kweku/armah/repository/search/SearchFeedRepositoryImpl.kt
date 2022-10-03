@@ -20,6 +20,7 @@ class SearchFeedRepositoryImpl @Inject constructor(
                 val sessions = response.data.responseDataDto.sessionDtos
                 val entities = sessions.map {
                     Session(
+                        id = 0,
                         currentTrack = CurrentTrack(
                             artworkUrl = it.currentTrackDto.artworkUrl,
                             title = it.currentTrackDto.title

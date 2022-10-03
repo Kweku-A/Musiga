@@ -59,7 +59,9 @@ class FeedRepositoryImpl @Inject constructor(
         return Pager(
             config = PagingConfig(
                 pageSize = FeedRemoteMediator.PAGE_SIZE,
-                initialLoadSize = FeedRemoteMediator.PAGE_SIZE, prefetchDistance = FeedRemoteMediator.PAGE_SIZE,
+                initialLoadSize = FeedRemoteMediator.PAGE_SIZE,
+                prefetchDistance = FeedRemoteMediator.PAGE_SIZE,
+                enablePlaceholders = true
             ),
             remoteMediator = FeedRemoteMediator(
                 feedDatasource = feedDatasource,
@@ -70,6 +72,7 @@ class FeedRepositoryImpl @Inject constructor(
         ).flow.map { pagingData ->
             pagingData.map {
                 Session(
+                    id = it.id,
                     currentTrack = CurrentTrack(
                         artworkUrl = it.currentTrackEntity.artworkUrl,
                         title = it.currentTrackEntity.title

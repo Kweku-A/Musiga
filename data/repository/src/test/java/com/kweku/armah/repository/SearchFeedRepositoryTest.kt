@@ -11,6 +11,7 @@ import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
+import kotlin.random.Random
 
 class SearchFeedRepositoryTest {
 
@@ -26,9 +27,10 @@ class SearchFeedRepositoryTest {
     @Test
     fun should_return_searched_feed_session() {
 
-        val expected = with(fakeFeedDto.responseDataDto.sessionDtos){
+        val expected = with(fakeFeedDto.responseDataDto.sessionDtos) {
             this.map {
                 Session(
+                    id = 0,
                     currentTrack = CurrentTrack(
                         artworkUrl = it.currentTrackDto.artworkUrl,
                         title = it.currentTrackDto.title
