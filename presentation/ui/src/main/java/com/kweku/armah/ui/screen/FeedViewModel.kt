@@ -27,7 +27,7 @@ import javax.inject.Inject
 @HiltViewModel
 class FeedViewModel @Inject constructor(private val feedUseCases: FeedUseCases) : ViewModel() {
 
-    var pagingDataSession by mutableStateOf<Flow<PagingData<SessionUi>>>(flowOf())
+    var pagingDataSession : Flow<PagingData<SessionUi>> = flowOf()
         private set
 
     private val _searchDataSession = MutableStateFlow<List<SessionUi>>(emptyList())
