@@ -113,18 +113,6 @@ class FeedViewModel @Inject constructor(private val feedUseCases: FeedUseCases) 
                     true
                 }
 
-                loadState.mediator?.refresh is LoadState.Error -> {
-                    _errorMessage.value =
-                        (loadState.mediator?.refresh as LoadState.Error).error.message.orEmpty()
-                    false
-                }
-
-                loadState.mediator?.append is LoadState.Error -> {
-                    _errorMessage.value =
-                        (loadState.mediator?.refresh as LoadState.Error).error.message.orEmpty()
-                    false
-                }
-
                 else -> {
                     false
                 }
