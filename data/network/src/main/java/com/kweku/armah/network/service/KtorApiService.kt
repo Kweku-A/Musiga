@@ -32,7 +32,7 @@ class KtorApiService @Inject constructor(private val client: HttpClient) : ApiSe
                 url {
                     protocol = URLProtocol.HTTPS
                     host = EndPoints.BASE_URL
-                    path(EndPoints.SEARCH)
+                    path(EndPoints.FEED)
                 }
             }
         }
